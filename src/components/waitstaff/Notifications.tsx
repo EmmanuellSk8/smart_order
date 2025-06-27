@@ -13,7 +13,7 @@ declare global {
   }
 }
 
-export default function NotificationPanel() {
+ function NotificationPanel() {
   const [chef, setChef] = useState<Notification[]>([]);
   const [table, setTable] = useState<Notification[]>([]);
 
@@ -50,6 +50,7 @@ export default function NotificationPanel() {
         <h2 className="text-lg font-semibold">Notificaciones</h2>
       </div>
       <div className="border-b-1 border-gray-300 mt-4" />
+      <ThereArentNotifications/>
 
       <div className="px-3 py-4">
 
@@ -76,3 +77,14 @@ export default function NotificationPanel() {
     </aside>
   );
 }
+
+function ThereArentNotifications(){
+return(
+  <div className="flex flex-col gap-2.5 w-full items-center justify-center mt-10 text-gray-600">
+  <Bell className="size-9"/>
+  <span>No hay Notificaciones</span>
+  </div>
+)
+}
+
+export {ThereArentNotifications, NotificationPanel}

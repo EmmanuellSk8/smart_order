@@ -1,4 +1,9 @@
 @import "tailwindcss";
+@import "@fontsource/poppins";
+
+:root{
+    font-family: 'Poppins', sans-serif;
+}
 
 body {
     background-color: rgb(252, 251, 251);
