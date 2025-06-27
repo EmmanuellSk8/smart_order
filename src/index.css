@@ -1,1 +1,28 @@
 @import "tailwindcss";
+@import "@fontsource/poppins";
+
+:root{
+    font-family: 'Poppins', sans-serif;
+}
+
+body {
+    background-color: rgb(252, 251, 251);
+    overflow-x: hidden;
+}
+
+@media (max-width: 1191px) {
+    .order-dish-responsive {
+        width: 100%;
+        max-width: 100%;
+        padding: 0;
+        
+    }
+}
+
+@media (max-width: 1238px) {
+    .container-dishes {
+        width: 100%;
+       display: flex;
+       flex-wrap: wrap;
+    }
+}
