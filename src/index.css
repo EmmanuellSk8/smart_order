@@ -26,3 +26,31 @@ body {
        flex-wrap: wrap;
     }
 }
+
+.readyColorNumberOrders{
+    background: #F0FDF4;
+    color: #00A63E;
+}
+
+.readyIconColor{
+    color: #00A63E;
+}
+
+.readyBgOrderCards{
+    background: #F0FDF4;
+    border: 1px solid #00A63E;
+}
+
+.cookingColorNumberOrders{
+    background: #fff7ec;
+    color: #F97316;
+}
+
+.cookingIconColor{
+    color: #F97316;
+}
+
+.cookingBgOrderCards{
+    background: #fff7ec;
+    border: 1px solid #F97316;
+}

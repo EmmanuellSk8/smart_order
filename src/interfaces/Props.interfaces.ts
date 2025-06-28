@@ -8,8 +8,9 @@ export type GeneralProps = React.HTMLAttributes<HTMLDivElement> & {
   image?: string
   order?: Order
   icon?: React.ReactNode
-  color?: string
-  bgColor?: string
+  iconColor?: string
+  ColorNumberOrders?: string
+  bgOrderCards?: string
   orders?: Order[]
   quantity?: number
   setQuantity?: Dispatch<SetStateAction<number>>;

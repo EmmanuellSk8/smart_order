@@ -3,6 +3,7 @@ import { CardDishesCategory, CardDishesImg, CardDishesPrice, CardDishesTitle, Co
 import Data from "../../assets/data/data";
 import { Minus, ShoppingCart } from "lucide-react";
 import { useState } from "react";
+import { UseOrders } from "./OrderContext";
 
 type Props = {
   numeroMesa: number;
@@ -28,9 +29,27 @@ export default function MaxContainerDishes({ numeroMesa, onVolver }: Props) {
     setPedidos(prev => prev.filter(p => p.id !== id));
   };
 
+  const { addOrder } = UseOrders();
+
   const handleEnviarPedidos = () => {
-    console.log("Pedidos enviados:", pedidos);
-    setPedidos([]); // Limpia si quieres
+    if (pedidos.length === 0) return;
+
+    pedidos.forEach((pedido) => {
+      const newOrder = {
+        id: Date.now().toString() + Math.random().toString(36).substring(2),
+        name: pedido.name,
+        image: pedido.image,
+        quantity: pedido.quantity || 1,
+        status: "preparando" as const,
+        mesa: Number(numeroMesa),
+        time: new Date().toLocaleTimeString(),
+        category: filterCategory,
+        note: "Sin notas",
+      };
+      console.log("📤 Pedido enviado a contexto:", newOrder);
+      addOrder(newOrder);
+    });
+    setPedidos([]);
   };
 
   const handleConfirmarPedido = (nuevoPedido: Dish) => {

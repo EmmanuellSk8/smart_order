@@ -6,5 +6,11 @@ export type Order = {
   image: string;
   category: string;
   time: string;
-  status?: "listo" | "preparando";
+  status: "listo" | "preparando";
+  mesa: number
 };
+
+export type OrderContextType = {
+ orders: Order[];
+ addOrder: (order: Order) => void;
+}

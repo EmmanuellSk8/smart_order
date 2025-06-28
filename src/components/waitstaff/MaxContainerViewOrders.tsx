@@ -14,7 +14,7 @@ export default function MaxContainerViewOrders({ onVolver, onGoAddDishes, numero
                 {1}
                 {/* ESTE 1 HACE REFERENCIA AL NUMERO DE ÓRDENES */}
             </ViewOrdersHeader>
-            <OrderBoard></OrderBoard>
+            <OrderBoard numeroMesa={numeroMesa} onVolver={onVolver} onGoAddDishes={onGoAddDishes}></OrderBoard>
         </>
     )
 }
