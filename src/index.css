@@ -1,7 +1,7 @@
 @import "tailwindcss";
 @import "@fontsource/poppins";
 
-:root{
+:root {
     font-family: 'Poppins', sans-serif;
 }
 
@@ -15,42 +15,58 @@ body {
         width: 100%;
         max-width: 100%;
         padding: 0;
-        
+
     }
 }
 
 @media (max-width: 1238px) {
     .container-dishes {
         width: 100%;
-       display: flex;
-       flex-wrap: wrap;
+        display: flex;
+        flex-wrap: wrap;
     }
 }
 
-.readyColorNumberOrders{
+.readyColorNumberOrders {
     background: #F0FDF4;
     color: #00A63E;
 }
 
-.readyIconColor{
+.readyIconColor {
     color: #00A63E;
 }
 
-.readyBgOrderCards{
+.readyBgOrderCards {
     background: #F0FDF4;
     border: 1px solid #00A63E;
 }
 
-.cookingColorNumberOrders{
+.cookingColorNumberOrders {
     background: #fff7ec;
     color: #F97316;
 }
 
-.cookingIconColor{
+.cookingIconColor {
     color: #F97316;
 }
 
-.cookingBgOrderCards{
+.cookingBgOrderCards {
     background: #fff7ec;
     border: 1px solid #F97316;
+}
+
+main::-webkit-scrollbar {
+    width: 13px;
+}
+
+main::-webkit-scrollbar-track {
+    background: #3d3c3c;
+    border-radius: 2px;
+    cursor: pointer;    
+}
+
+main::-webkit-scrollbar-thumb {
+    background: #F9803F;
+    border-radius: 2px;
+    cursor: pointer;    
 }

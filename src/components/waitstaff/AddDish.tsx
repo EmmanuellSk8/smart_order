@@ -1,9 +1,12 @@
 import { ArrowLeft, Minus, Plus } from "lucide-react"
 import type { GeneralProps } from "../../interfaces/Props.interfaces"
+import type { Dispatch, SetStateAction } from "react";
 
 type Props = {
-    numeroMesa: number;
-    onVolver: () => void;
+    numeroMesa?: number;
+    onVolver?: () => void;
+    notes?: string;
+    setNotes?: Dispatch<SetStateAction<string>>;
 }
 
 function AddDishHeader({ numeroMesa, onVolver, ...props }: Props & GeneralProps) {
@@ -58,7 +61,7 @@ function AddDish({ className, image, quantity = 1, setQuantity, ...props }: Gene
     )
 }
 
-function AddDishAndNotes({ className, ...props }: GeneralProps) {
+function AddDishAndNotes({ className, notes, setNotes, ...props }: GeneralProps & Props) {
 
     return (
         <>
@@ -70,8 +73,10 @@ function AddDishAndNotes({ className, ...props }: GeneralProps) {
 
                 <div className="flex flex-col gap-2">
                     <span>Comentarios</span>
-                    <textarea placeholder="Ej: Sin cebolla, extra queso..." className={`border-1 border-gray-400 rounded-lg px-2 py-1 min-h-22 ${className}`} />
-
+                    <textarea
+                        value={notes}
+                        onChange={(e) => setNotes?.(e.target.value)}
+                        placeholder="Ej: Sin cebolla, extra queso..." className={`border-1 border-gray-400 rounded-lg px-2 py-1 min-h-22 ${className}`} />
                 </div>
             </div>
         </>

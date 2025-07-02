@@ -16,12 +16,14 @@ type Dish = {
   image: string;
   price?: number;
   quantity?: number;
+  notes?: string
 };
 
 export default function MaxContainerDishes({ numeroMesa, onVolver }: Props) {
   const [platilloSeleccionado, setPlatilloSeleccionado] = useState<Dish | null>(null);
-  const [cantidad, setCantidad] = useState<number>(1);
   const [pedidos, setPedidos] = useState<Dish[]>([]);
+  const [cantidad, setCantidad] = useState<number>(1);
+  const [notes, setNotes] = useState<string>("");
   const [searchText, setSearchText] = useState("")
   const [filterCategory, setFilterCategory] = useState("Entradas")
 
@@ -44,9 +46,8 @@ export default function MaxContainerDishes({ numeroMesa, onVolver }: Props) {
         mesa: Number(numeroMesa),
         time: new Date().toLocaleTimeString(),
         category: filterCategory,
-        note: "Sin notas",
+        note: pedido.notes || "",
       };
-      console.log("📤 Pedido enviado a contexto:", newOrder);
       addOrder(newOrder);
     });
     setPedidos([]);
@@ -66,6 +67,7 @@ export default function MaxContainerDishes({ numeroMesa, onVolver }: Props) {
       }
     });
     setPlatilloSeleccionado(null);
+    setNotes("")
   };
 
   const normalize = (text: string) =>
@@ -143,7 +145,7 @@ export default function MaxContainerDishes({ numeroMesa, onVolver }: Props) {
               </div>
 
               <AddDish quantity={cantidad} setQuantity={setCantidad} />
-              <AddDishAndNotes />
+              <AddDishAndNotes notes={notes} setNotes={setNotes} />
               <button
                 onClick={() =>
                   handleConfirmarPedido({
@@ -151,7 +153,8 @@ export default function MaxContainerDishes({ numeroMesa, onVolver }: Props) {
                     name: platilloSeleccionado.name,
                     image: platilloSeleccionado.image,
                     price: platilloSeleccionado.price,
-                    quantity: cantidad, // viene de tu componente <AddDish />
+                    notes: notes,
+                    quantity: cantidad,
                   })
                 }
                 className="mt-4 bg-black text-white font-semibold py-2 px-4 rounded-sm w-full"
@@ -163,7 +166,6 @@ export default function MaxContainerDishes({ numeroMesa, onVolver }: Props) {
 
           {pedidos.length > 0 && (
             <ContainerOrderDish className="flex flex-col gap-6.5 min-w-[450px]">
-              {/* // <ContainerOrderDish key={pedido.id}> */}
               <h2 className="mb-4 text-lg font-semibold">Pedido Actual</h2>
               {pedidos.map((pedido) => (
                 <div key={pedido.id} className="flex items-center gap-3 bg-gray-200/80 px-3 py-2 rounded-sm">

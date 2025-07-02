@@ -13,7 +13,11 @@ type OrdersOverViewProps = {
     cooking: number;
 };
 
-function ViewOrdersHeader({ onVolver, onGoAddDishes, numeroMesa, ...props }: GeneralProps & Props) {
+function ViewOrdersHeader({ onVolver, onGoAddDishes, numeroMesa}: GeneralProps & Props) {
+
+    const { orders } = UseOrders();
+    const NumberOrders = orders.filter((o) => Number(o.mesa) === Number(numeroMesa));
+
     return (
         <div className="flex w-full justify-between items-center">
             <div className="flex items-center gap-8 mb-7">
@@ -21,7 +25,7 @@ function ViewOrdersHeader({ onVolver, onGoAddDishes, numeroMesa, ...props }: Gen
                     onClick={onVolver}
                     className="bg-white flex items-center border-1 w-32 px-3 py-2 justify-between rounded-sm font-semibold border-gray-300 hover:bg-gray-100/80 cursor-pointer"><ArrowLeft className="size-5"
                     /> Volver </button>
-                <p className="flex flex-col gap-0.5"><span className="text-2xl font-bold">Mesa {numeroMesa}</span><span className="text-gray-600 flex gap-2">Órdenes ({props.children})</span></p>
+                <p className="flex flex-col gap-0.5"><span className="text-2xl font-bold">Mesa {numeroMesa}</span><span className="text-gray-600 flex gap-2">Órdenes ({NumberOrders.length})</span></p>
             </div>
             <div className="flex gap-3">
                 <button
