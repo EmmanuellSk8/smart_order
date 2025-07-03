@@ -1,6 +1,10 @@
 import { UsersRound, ChefHat } from 'lucide-react';
 
-export default function Header() {
+type Props = {
+    onHeader: () => void
+}
+
+export default function Header({onHeader}: Props) {
     return (
         <>
             <header className="bg-white w-full">
@@ -9,12 +13,11 @@ export default function Header() {
                     <div className="flex gap-4 ">
                         {/* al estar seleccionado (active), cambiar el fondo, el texto y el font a semibold */}
                         <button className="flex gap-2 bg-white py-2.5 px-5 rounded-sm text-black border-1 border-gray-600 font-semibold"><UsersRound />Mesas</button>
-                        <button className="flex gap-2 bg-black py-2.5 px-5 rounded-sm text-white border-1 border-gray-600"><ChefHat />Cocina</button>
+                        <button className="flex gap-2 bg-black py-2.5 px-5 rounded-sm text-white border-1 border-gray-600" onClick={onHeader}><ChefHat />Cocina</button>
                     </div>
                 </div>
                 <div className="border-b-1 border-gray-300 mt-2 w-full h-1"></div>
             </header>
-
         </>
     );
 }

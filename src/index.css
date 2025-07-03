@@ -55,6 +55,20 @@ body {
     border: 1px solid #F97316;
 }
 
+.kitchenColorNumberOrders {
+    background: #fff7ec;
+    color: #F97316;
+}
+
+.kitchenIconColor {
+    color: #F97316;
+}
+
+.kitchenBgOrderCards {
+    background-color: #F9FAFB;
+    border: 1px solid #F97316;
+}
+
 main::-webkit-scrollbar {
     width: 13px;
 }
