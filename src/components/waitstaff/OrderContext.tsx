@@ -16,8 +16,12 @@ const OrderProvider = ({ children }: { children: ReactNode }) => {
     });
   };
 
+  const clearOrdersByTable = (mesa: number) => {
+    setOrders((prev) => prev.filter((order) => order.mesa !== mesa))
+  };
+
   return (
-    <OrderContext.Provider value={{ orders, addOrder }}>
+    <OrderContext.Provider value={{ orders, addOrder, clearOrdersByTable }}>
       {children}
     </OrderContext.Provider>
   );
