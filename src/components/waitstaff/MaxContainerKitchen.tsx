@@ -1,4 +1,4 @@
-import { ArrowLeft, CheckCircle, Clock, UsersRound } from "lucide-react"
+import { ArrowLeft, CheckCircle, Clock, icons, UsersRound } from "lucide-react"
 import type { GeneralProps } from "../../interfaces/Props.interfaces";
 import { UseOrders } from "./OrderContext";
 
@@ -65,8 +65,8 @@ function CardOrders({ order, className }: GeneralProps) {
                 {btnOrder?.status === "listo" && (
                     <div className="w-full mt-4">
                         <button
-                         onClick={() => markAsServed(order?.id)}
-                        className="bg-[#16A34A] text-white w-full py-1.5 rounded-sm cursor-pointer">Marcar como servido</button>
+                            onClick={() => markAsServed(order?.id)}
+                            className="bg-[#16A34A] text-white w-full py-1.5 rounded-sm cursor-pointer">Marcar como servido</button>
                     </div>
                 )}
             </div>
@@ -74,7 +74,7 @@ function CardOrders({ order, className }: GeneralProps) {
     )
 }
 
-const OrderColumn = ({ title, icon, orders, iconColor, ColorNumberOrders, bgOrderCards }: GeneralProps) => {
+const OrderColumn = ({ title, icon, orders, iconColor, ColorNumberOrders, bgOrderCards, ...props }: GeneralProps) => {
     return (
         <>
             <div className="flex flex-col w-full">
@@ -93,6 +93,7 @@ const OrderColumn = ({ title, icon, orders, iconColor, ColorNumberOrders, bgOrde
                     {orders?.map(order => (
                         <CardOrders className={`${bgOrderCards}`} key={order.id} order={order} />
                     ))}
+                    {props.children}
                 </div>
             </div>
         </>
@@ -109,6 +110,8 @@ const OrderBoard = () => {
     const pedidosListos = orders.filter(o => o.status === "listo");
     const pedidosPreparando = orders.filter(o => o.status === "preparando");
 
+    const thereArentDishPreparing = pedidosPreparando.length == 0
+    const thereArentDishReady = pedidosListos.length == 0
     return (
         <>
             <section className="flex flex-col md:flex-row gap-6 py-6 justify-center h-fit">
@@ -119,7 +122,11 @@ const OrderBoard = () => {
                     iconColor="kitchenIconColor"
                     ColorNumberOrders="kitchenColorNumberOrders"
                     bgOrderCards="kitchenBgOrderCards"
-                />
+                >
+                    {thereArentDishPreparing && <ThereArentDishes>
+                        <DynamicIcon name="Clock" className="size-8" />
+                        No hay órdenes en progreso</ThereArentDishes>}
+                </OrderColumn>
                 <OrderColumn
                     title="Listos para servir"
                     icon=<CheckCircle />
@@ -127,7 +134,11 @@ const OrderBoard = () => {
                     iconColor="readyIconColor"
                     ColorNumberOrders="readyColorNumberOrders"
                     bgOrderCards="readyBgOrderCards"
-                />
+                >
+                    {thereArentDishReady && <ThereArentDishes>
+                        <DynamicIcon name="CircleCheck" className="size-8" />
+                        No hay órdenes listas</ThereArentDishes>}
+                </OrderColumn>
             </section>
         </>
     );
@@ -144,4 +155,27 @@ function MaxContainerKitchen({ onVolver }: OrderrPops) {
     )
 }
 
-export { MaxContainerKitchen, HeaderKitchen }
+function ThereArentDishes({ ...props }) {
+    return (
+        <div className="flex flex-col gap-2.5 w-full items-center justify-center mt-10 text-gray-600">
+            <span className="flex flex-col gap-2 items-center">{props.children}</span>
+        </div>
+    )
+}
+
+type IconsProps = {
+    name: keyof typeof icons;
+    className?: string;
+    size?: number;
+    strokeWidth?: number;
+};
+
+export default function DynamicIcon({ name, className, size = 24, strokeWidth = 2 }: IconsProps) {
+    const LucideIcon = icons[name];
+
+    if (!LucideIcon) return null;
+
+    return <LucideIcon className={className} size={size} strokeWidth={strokeWidth} />;
+}
+
+export { MaxContainerKitchen, HeaderKitchen, ThereArentDishes }

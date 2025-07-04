@@ -33,7 +33,7 @@ function ViewOrdersHeader({ onVolver, onGoAddDishes, numeroMesa }: GeneralProps 
                     className="cursor-pointer hover:scale-105 duration-300 flex rounded-sm bg-white py-2 px-5 items-center gap-2 border-1 border-gray-300 "><Plus className="size-5" /> Agregar Más</button>
                 <button className="cursor-pointer hover:scale-105 duration-300 flex rounded-sm bg-green-600 py-2 px-5 items-center gap-2 text-white"><Receipt className="size-5" /> Generar Factura</button>
                 <button
-                    onClick={() => { clearOrdersByTable(numeroMesa) }}
+                    onClick={() => { clearOrdersByTable(numeroMesa); onVolver(); }}
                     className="cursor-pointer hover:scale-105 duration-300 flex rounded-sm bg-red-500 py-2 px-5 items-center gap-2 text-white"><Trash2 className="size-5" /> Limpiar Mesa</button>
             </div>
         </div>
