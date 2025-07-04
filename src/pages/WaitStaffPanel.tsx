@@ -5,7 +5,7 @@ import MaxContainerDishes from "../components/waitstaff/MaxContainerDishes";
 import MaxContainerTables from "../components/waitstaff/MaxContainerTables";
 import MaxContainerViewOrders from "../components/waitstaff/MaxContainerViewOrders";
 import { NotificationPanel } from "../components/waitstaff/Notifications";
-import {MaxContainerKitchen } from "../components/waitstaff/MaxContainerKitchen";
+import { MaxContainerKitchen } from "../components/waitstaff/MaxContainerKitchen";
 
 export default function WaitStaffPanel() {
   const mesas = Array.from({ length: 16 }, (_, i) => i + 1);
@@ -20,7 +20,13 @@ export default function WaitStaffPanel() {
         <Activator />
 
         <div className="flex flex-col flex-1">
-          <Header onHeader={() => { setVistaActual("cocina") }} />
+
+          <Header
+            onTables={() => { setVistaActual("mesas") }}
+            onHeader={() => { setVistaActual("cocina") }}
+            setVistaActual={setVistaActual}
+            vistaActual={vistaActual}
+          />
 
           <main className="flex-1 overflow-auto p-4 max-w-[1600px]">
 
@@ -59,7 +65,7 @@ export default function WaitStaffPanel() {
 
             {vistaActual === "cocina" &&
 
-              <MaxContainerKitchen onVolver={() => { setVistaActual("mesas") }}/>
+              <MaxContainerKitchen onVolver={() => { setVistaActual("mesas") }} />
             }
 
           </main>
