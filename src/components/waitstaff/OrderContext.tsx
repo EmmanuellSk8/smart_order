@@ -20,8 +20,12 @@ const OrderProvider = ({ children }: { children: ReactNode }) => {
     setOrders((prev) => prev.filter((order) => order.mesa !== mesa))
   };
 
+  const markAsServed = (id: string | undefined) => {
+  setOrders(prev => prev.filter(order => order.id !== id));
+};
+
   return (
-    <OrderContext.Provider value={{ orders, addOrder, clearOrdersByTable }}>
+    <OrderContext.Provider value={{ orders, addOrder, clearOrdersByTable, markAsServed }}>
       {children}
     </OrderContext.Provider>
   );

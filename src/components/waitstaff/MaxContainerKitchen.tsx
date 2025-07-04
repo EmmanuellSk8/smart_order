@@ -24,7 +24,7 @@ function HeaderKitchen({ onVolver }: Props) {
 }
 
 function CardOrders({ order, className }: GeneralProps) {
-    const { orders } = UseOrders();
+    const { orders, markAsServed } = UseOrders();
     const btnOrder = orders.find((o) => o.id === order?.id);
     return (
         <>
@@ -64,7 +64,9 @@ function CardOrders({ order, className }: GeneralProps) {
 
                 {btnOrder?.status === "listo" && (
                     <div className="w-full mt-4">
-                        <button className="bg-[#16A34A] text-white w-full py-1.5 rounded-sm">Marcar como servido</button>
+                        <button
+                         onClick={() => markAsServed(order?.id)}
+                        className="bg-[#16A34A] text-white w-full py-1.5 rounded-sm cursor-pointer">Marcar como servido</button>
                     </div>
                 )}
             </div>

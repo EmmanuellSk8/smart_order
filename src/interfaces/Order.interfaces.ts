@@ -14,4 +14,5 @@ export type OrderContextType = {
  orders: Order[];
  addOrder: (order: Order) => void;
  clearOrdersByTable: (mesa: number) => void;
+  markAsServed: (id: string | undefined) => void;
 }

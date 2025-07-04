@@ -42,7 +42,7 @@ export default function MaxContainerDishes({ numeroMesa, onVolver }: Props) {
         name: pedido.name,
         image: pedido.image,
         quantity: pedido.quantity || 1,
-        status: "preparando" as const,
+        status: "listo" as const,
         mesa: Number(numeroMesa),
         time: new Date().toLocaleTimeString(),
         category: filterCategory,
