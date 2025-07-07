@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Bell } from 'lucide-react';
 import type { ToastNotifications, ToastNotificationsProps } from "../../interfaces/Notifications.interface";
+import SoundNotification from "../SoundNotification";
 
 declare global {
   interface Window {
@@ -16,15 +17,17 @@ function NotificationPanel() {
   const addNotificationChef = (msg: string) => {
     const id = Date.now();
     setChef((prev) => [...prev, { id, msg, table: 1 }]);
+    SoundNotification()
   };
-
+  
   const removeNotificationChef = (id: number) => {
     setChef((prev) => prev.filter((n) => n.id !== id));
   };
-
+  
   const addNotificationTable = (msg: string) => {
     const id = Date.now();
     setTable((prev) => [...prev, { id, msg, table: 1 }]);
+    SoundNotification()
   };
 
   const removeNotificationTable = (id: number) => {

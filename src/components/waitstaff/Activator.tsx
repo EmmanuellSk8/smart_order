@@ -2,7 +2,6 @@ interface props{
   className?: string;
 }
 
-
 export default function WaitStaffPanel({ className }: props) {
   return (
     <main className={`flex-1 p-10 absolute left-1 top-0 ml-96 ${className}`}>
