@@ -116,7 +116,7 @@ export default function MaxContainerDishes({ numeroMesa, onVolver }: Props) {
                         image={item.image}
                       />
                       <div className="flex flex-col gap-2.5">
-                        <div className="gap-0.5 flex flex-col">
+                        <div className="gap-0.5 flex flex-col items-start">
                           <CardDishesTitle>{item.name}</CardDishesTitle>
                           <CardDishesCategory>{category.name}</CardDishesCategory>
                         </div>
@@ -133,34 +133,37 @@ export default function MaxContainerDishes({ numeroMesa, onVolver }: Props) {
         <div className="order-dish-responsive mt-9">
 
           {platilloSeleccionado && (
-            <ContainerOrderDish className="order-dish-responsive w-full xl:max-w-[1950px] lg:max-w-[1000px] sm:max-w-[500px] min-w-[450px] sm:flex-shrink-0 sm:w-auto sm:px-10 mb-6">
-              <div className="flex items-center flex-col">
-                <img
-                  className="size-30 object-cover aspect-square rounded-lg"
-                  src={platilloSeleccionado.image}
-                  alt=""
-                />
-                <p className="text-lg font-semibold">{platilloSeleccionado.name}</p>
-                <p className="text-green-700 text-lg font-semibold">${platilloSeleccionado.price}</p>
-              </div>
+            <ContainerOrderDish className="order-dish-responsive w-full xl:max-w-[1950px] lg:max-w-[1000px] sm:max-w-[500px] min-w-[450px] sm:flex-shrink-0 sm:w-auto sm:px-10 mb-8">
+              <div className="p-4">
 
-              <AddDish quantity={cantidad} setQuantity={setCantidad} />
-              <AddDishAndNotes notes={notes} setNotes={setNotes} />
-              <button
-                onClick={() =>
-                  handleConfirmarPedido({
-                    id: platilloSeleccionado.id,
-                    name: platilloSeleccionado.name,
-                    image: platilloSeleccionado.image,
-                    price: platilloSeleccionado.price,
-                    notes: notes,
-                    quantity: cantidad,
-                  })
-                }
-                className="mt-4 bg-black text-white font-semibold py-2 px-4 rounded-sm w-full"
-              >
-                Agregar al pedido
-              </button>
+                <div className="flex items-center flex-col">
+                  <img
+                    className="size-30 object-cover aspect-square rounded-lg"
+                    src={platilloSeleccionado.image}
+                    alt=""
+                  />
+                  <p className="text-lg font-semibold">{platilloSeleccionado.name}</p>
+                  <p className="text-green-700 text-lg font-semibold">${platilloSeleccionado.price}</p>
+                </div>
+
+                <AddDish quantity={cantidad} setQuantity={setCantidad} />
+                <AddDishAndNotes notes={notes} setNotes={setNotes} />
+                <button
+                  onClick={() =>
+                    handleConfirmarPedido({
+                      id: platilloSeleccionado.id,
+                      name: platilloSeleccionado.name,
+                      image: platilloSeleccionado.image,
+                      price: platilloSeleccionado.price,
+                      notes: notes,
+                      quantity: cantidad,
+                    })
+                  }
+                  className="mt-4 bg-black text-white font-semibold py-2 px-4 rounded-sm w-full"
+                >
+                  Agregar al pedido
+                </button>
+              </div>
             </ContainerOrderDish>
           )}
 

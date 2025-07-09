@@ -1,6 +1,7 @@
 import { ArrowLeft, CheckCircle, Clock, Plus, Receipt, Trash2 } from "lucide-react"
 import type { GeneralProps } from "../../interfaces/Props.interfaces"
 import { UseOrders } from "./OrderContext"
+import { useRef } from "react";
 
 type Props = {
     numeroMesa: number;
@@ -18,8 +19,22 @@ function ViewOrdersHeader({ onVolver, onGoAddDishes, numeroMesa }: GeneralProps 
     const { orders, clearOrdersByTable } = UseOrders();
     const NumberOrders = orders.filter((o) => Number(o.mesa) === Number(numeroMesa));
 
+    const modal = useRef<HTMLDialogElement | null>(null);
+
+    const openModal = () => {
+        if (modal.current) {
+            modal.current.showModal();
+        }
+    }
+
+    const closeModal = () => {
+        if (modal.current) {
+            modal.current.close();
+        }
+    }
+
     return (
-        <div className="flex w-full justify-between items-center">
+        <div className="flex w-full justify-between items-center max-[1060px]:flex-wrap">
             <div className="flex items-center gap-8 mb-7">
                 <button
                     onClick={onVolver}
@@ -27,14 +42,30 @@ function ViewOrdersHeader({ onVolver, onGoAddDishes, numeroMesa }: GeneralProps 
                     /> Volver </button>
                 <p className="flex flex-col gap-0.5"><span className="text-2xl font-bold">Mesa {numeroMesa}</span><span className="text-gray-600 flex gap-2">Órdenes ({NumberOrders.length})</span></p>
             </div>
-            <div className="flex gap-3">
+            <div className="flex gap-3 max-[890px]:flex-col max-[890px]:w-full">
                 <button
                     onClick={onGoAddDishes}
-                    className="cursor-pointer hover:scale-105 duration-300 flex rounded-sm bg-white py-2 px-5 items-center gap-2 border-1 border-gray-300 "><Plus className="size-5" /> Agregar Más</button>
-                <button className="cursor-pointer hover:scale-105 duration-300 flex rounded-sm bg-green-600 py-2 px-5 items-center gap-2 text-white"><Receipt className="size-5" /> Generar Factura</button>
+                    className="cursor-pointer hover:scale-105 text-nowrap duration-300 flex rounded-sm bg-white py-2 px-5 items-center gap-2 border-1 border-gray-300 justify-center"><Plus className="size-5" /> Agregar Más</button>
+                
+                <button className="cursor-pointer hover:scale-105 text-nowrap duration-300 flex rounded-sm bg-green-600 py-2 px-5 items-center gap-2 text-white justify-center"><Receipt className="size-5" /> Generar Factura</button>
+
                 <button
-                    onClick={() => { clearOrdersByTable(numeroMesa); onVolver(); }}
-                    className="cursor-pointer hover:scale-105 duration-300 flex rounded-sm bg-red-500 py-2 px-5 items-center gap-2 text-white"><Trash2 className="size-5" /> Limpiar Mesa</button>
+                    onClick={openModal}
+                    className="cursor-pointer hover:scale-105 text-nowrap duration-300 flex rounded-sm bg-red-500 py-2 px-5 items-center gap-2 text-white justify-center"><Trash2 className="size-5" /> Limpiar Mesa</button>
+                <dialog id="modal"
+                    ref={modal}
+                    closedby="any"
+                    className="overflow-x-hidden px-10 py-20 fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-white p-4 rounded-lg shadow-lg">
+                    <p>¿Está seguro que desea limpiar la mesa?</p>
+                    <div className="flex w-full gap-4 mt-6">
+                        <button
+                            onClick={closeModal}
+                            className="cursor-pointer hover:scale-105 duration-300 flex rounded-sm bg-gray-500 py-2 px-5 items-center gap-2 text-white"><Trash2 className="size-5" />Cancelar</button>
+                        <button
+                            onClick={() => { clearOrdersByTable(numeroMesa); onVolver(); }}
+                            className="cursor-pointer hover:scale-105 duration-300 flex rounded-sm bg-red-500 py-2 px-5 items-center gap-2 text-white text-nowrap"><Trash2 className="size-5" /> Limpiar Mesa</button>
+                    </div>
+                </dialog>
             </div>
         </div>
     )
@@ -77,7 +108,7 @@ const OrderColumn = ({ title, icon, orders, iconColor, ColorNumberOrders, bgOrde
         <>
             <div className="flex flex-col w-full">
 
-                <div className="flex items-center gap-2 mb-4">
+                <div className="flex items-center gap-2 mx-10 mb-4">
                     <h2 className={`font-bold text-lg flex items-center gap-2`}>
                         <span className={`${iconColor}`}>{icon}</span>{title}
                     </h2>
@@ -107,7 +138,7 @@ const OrderBoard = ({ numeroMesa, onVolver, onGoAddDishes }: Props) => {
 
     return (
         <>
-            <section className="flex flex-col md:flex-row gap-6 py-6 justify-center h-fit">
+            <section className="flex gap-6 py-6 justify-center h-fit max-[1060px]:flex-col">
                 <OrderColumn
                     title="Pedidos Listos"
                     icon=<CheckCircle />

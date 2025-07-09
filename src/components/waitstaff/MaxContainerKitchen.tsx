@@ -114,7 +114,7 @@ const OrderBoard = () => {
     const thereArentDishReady = pedidosListos.length == 0
     return (
         <>
-            <section className="flex flex-col md:flex-row gap-6 py-6 justify-center h-fit">
+            <section className="flex gap-6 py-6 justify-center h-fit max-[1060px]:flex-col">
                 <OrderColumn
                     title="En progreso"
                     icon=<Clock />
