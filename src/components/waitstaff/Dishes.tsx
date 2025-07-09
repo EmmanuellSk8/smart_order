@@ -1,4 +1,3 @@
-
 import { Clock, Flame, Badge } from "lucide-react"
 import Data from "../../assets/data/data"
 

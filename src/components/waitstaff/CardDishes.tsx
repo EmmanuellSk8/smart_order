@@ -1,5 +1,5 @@
 import { Search } from "lucide-react"
-import type { GeneralProps } from "../../interfaces/Props.interfaces"
+import type { GeneralProps, SearchEngineProps } from "../../interfaces/Props.interfaces"
 
 function ContainerAddDishes({ className, ...props }: GeneralProps) {
     return (
@@ -19,13 +19,6 @@ function ContainerSectionAddDish({ className, ...props }: GeneralProps) {
             </div>
         </>
     )
-}
-
-type SearchEngineProps = {
-    searchText: string;
-    setSearchText: (value: string) => void;
-    filterCategory: string;
-    setFilterCategory: (value: string) => void;
 }
 
 function SearchEngine({ searchText, setSearchText, filterCategory, setFilterCategory }: SearchEngineProps) {

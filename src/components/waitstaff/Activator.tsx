@@ -1,8 +1,6 @@
-interface props{
-  className?: string;
-}
+import type { GeneralProps } from "../../interfaces/Props.interfaces";
 
-export default function Activator({ className }: props) {
+export default function Activator({ className }: GeneralProps) {
   return (
     <main className={`flex-1 p-10 absolute left-1 top-0 ml-96 ${className}`}>
       <button

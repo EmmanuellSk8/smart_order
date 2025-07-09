@@ -1,15 +1,7 @@
 import { ArrowLeft, Minus, Plus } from "lucide-react"
-import type { GeneralProps } from "../../interfaces/Props.interfaces"
-import type { Dispatch, SetStateAction } from "react";
+import type { AddDishProps, GeneralProps } from "../../interfaces/Props.interfaces"
 
-type Props = {
-    numeroMesa?: number;
-    onVolver?: () => void;
-    notes?: string;
-    setNotes?: Dispatch<SetStateAction<string>>;
-}
-
-function AddDishHeader({ numeroMesa, onVolver, ...props }: Props & GeneralProps) {
+function AddDishHeader({ numeroMesa, onVolver, ...props }: AddDishProps & GeneralProps) {
     return (
         <>
             <div className="flex w-full">
@@ -61,7 +53,7 @@ function AddDish({ className, image, quantity = 1, setQuantity, ...props }: Gene
     )
 }
 
-function AddDishAndNotes({ className, notes, setNotes, ...props }: GeneralProps & Props) {
+function AddDishAndNotes({ className, notes, setNotes, ...props }: GeneralProps & AddDishProps) {
 
     return (
         <>

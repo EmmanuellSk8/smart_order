@@ -13,5 +13,34 @@ export type GeneralProps = React.HTMLAttributes<HTMLDivElement> & {
   bgOrderCards?: string
   orders?: Order[]
   quantity?: number
+  notes?: string;
   setQuantity?: Dispatch<SetStateAction<number>>;
+  setNotes?: Dispatch<SetStateAction<string>>;
+}
+
+export type AddDishProps = {
+    numeroMesa?: number;
+    onVolver?: () => void;
+    notes?: string;
+    setNotes?: Dispatch<SetStateAction<string>>;
+}
+
+export type HeaderProps = {
+    onHeader: () => void;
+    onTables: () => void;
+    vistaActual: "mesas" | "cocina" | "dishes" | "resumen";
+  setVistaActual: (vista: "mesas" | "cocina" | "dishes" | "resumen") => void;
+}
+
+export type SearchEngineProps = {
+  searchText: string;
+  setSearchText: (value: string) => void;
+  filterCategory: string;
+  setFilterCategory: (value: string) => void;
+}
+
+export type TableProps = {
+  numeroMesa: number;
+  onIrResumen: () => void;
+  onGoAddDishes: () => void;
 }

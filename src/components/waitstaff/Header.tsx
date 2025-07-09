@@ -1,13 +1,7 @@
 import { UsersRound, ChefHat } from 'lucide-react';
+import type { HeaderProps } from '../../interfaces/Props.interfaces';
 
-type Props = {
-    onHeader: () => void;
-    onTables: () => void;
-    vistaActual: "mesas" | "cocina" | "dishes" | "resumen";
-  setVistaActual: (vista: "mesas" | "cocina" | "dishes" | "resumen") => void;
-}
-
-export default function Header({ onHeader, onTables, setVistaActual, vistaActual }: Props) {
+export default function Header({ onHeader, onTables, setVistaActual, vistaActual }: HeaderProps) {
     return (
         <>
             <header className="bg-white w-full">

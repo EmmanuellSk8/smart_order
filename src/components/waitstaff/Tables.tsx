@@ -1,11 +1,5 @@
 import { CircleCheck, ClockFading, Users } from "lucide-react";
-import type { GeneralProps } from "../../interfaces/Props.interfaces"
-
-type Props = {
-  numeroMesa: number;
-  onIrResumen: () => void;
-  onGoAddDishes: () => void;
-}
+import type { GeneralProps, TableProps } from "../../interfaces/Props.interfaces"
 
 function CardTable({ className = "",  ...props }: GeneralProps) {
   return (
@@ -35,7 +29,7 @@ function TableState({ tableState, className }: GeneralProps) {
   );
 }
 
-function ButtonTableBusy({ className, order, onIrResumen, onGoAddDishes}: GeneralProps & Props) {
+function ButtonTableBusy({ className, order, onIrResumen, onGoAddDishes}: GeneralProps & TableProps) {
   return (
     <>
       <p className="font-semibold text-lg mt-3 flex w-full justify-between">Pedidos: {order?.status === "listo" ? <span className="flex items-center gap-2 text-[#22C55E] font-semibold text-lg"><CircleCheck className="size-[20px]" /> Pedido listo</span> : <span className="flex items-center gap-2 text-[#F9802C] font-semibold text-[17px]"><ClockFading className="size-[18px] mt-0.5" /> Preparando</span>}</p>

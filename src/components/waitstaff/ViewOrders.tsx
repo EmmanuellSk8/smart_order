@@ -2,19 +2,9 @@ import { ArrowLeft, CheckCircle, Clock, Plus, Receipt, Trash2 } from "lucide-rea
 import type { GeneralProps } from "../../interfaces/Props.interfaces"
 import { UseOrders } from "../context/OrderContext"
 import { useRef } from "react";
+import type { OrdersOverViewProps, ViewOrdersProps } from "../../interfaces/Order.interfaces";
 
-type Props = {
-    numeroMesa: number;
-    onVolver: () => void;
-    onGoAddDishes: () => void;
-}
-
-type OrdersOverViewProps = {
-    ready: number;
-    cooking: number;
-};
-
-function ViewOrdersHeader({ onVolver, onGoAddDishes, numeroMesa }: GeneralProps & Props) {
+function ViewOrdersHeader({ onVolver, onGoAddDishes, numeroMesa }: GeneralProps & ViewOrdersProps) {
 
     const { orders, clearOrdersByTable } = UseOrders();
     const NumberOrders = orders.filter((o) => Number(o.mesa) === Number(numeroMesa));
@@ -128,7 +118,7 @@ const OrderColumn = ({ title, icon, orders, iconColor, ColorNumberOrders, bgOrde
     );
 };
 
-const OrderBoard = ({ numeroMesa, onVolver, onGoAddDishes }: Props) => {
+const OrderBoard = ({ numeroMesa, onVolver, onGoAddDishes }: ViewOrdersProps) => {
 
     const { orders } = UseOrders();
 
@@ -169,7 +159,7 @@ const OrderBoard = ({ numeroMesa, onVolver, onGoAddDishes }: Props) => {
     );
 };
 
-function OrdersOverView({ numeroMesa, ready, cooking }: OrdersOverViewProps & Props) {
+function OrdersOverView({ numeroMesa, ready, cooking }: OrdersOverViewProps & ViewOrdersProps) {
     const { orders } = UseOrders();
     const NumberOrders = orders.filter((o) => Number(o.mesa) === Number(numeroMesa));
     const total = NumberOrders.reduce((acc, curr) => acc + (curr.quantity || 1), 0);
