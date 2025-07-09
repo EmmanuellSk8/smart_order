@@ -1,6 +1,6 @@
 import { ArrowLeft, CheckCircle, Clock, Plus, Receipt, Trash2 } from "lucide-react"
 import type { GeneralProps } from "../../interfaces/Props.interfaces"
-import { UseOrders } from "./OrderContext"
+import { UseOrders } from "../context/OrderContext"
 import { useRef } from "react";
 
 type Props = {

@@ -1,9 +1,9 @@
-import { AddDish, AddDishAndNotes, AddDishHeader, ContainerOrderDish } from "./AddDish";
-import { CardDishesCategory, CardDishesImg, CardDishesPrice, CardDishesTitle, ContainerAddDishes, SearchEngine, ContainerSectionAddDish, CardDishesQuantity } from "./CardDishes";
-import Data from "../../assets/data/data";
+import { AddDish, AddDishAndNotes, AddDishHeader, ContainerOrderDish } from "../AddDish";
+import { CardDishesCategory, CardDishesImg, CardDishesPrice, CardDishesTitle, ContainerAddDishes, SearchEngine, ContainerSectionAddDish, CardDishesQuantity } from "../CardDishes";
+import Data from "../../../assets/data/data";
 import { Minus, ShoppingCart } from "lucide-react";
 import { useState } from "react";
-import { UseOrders } from "./OrderContext";
+import { UseOrders } from "../../context/OrderContext";
 
 type Props = {
   numeroMesa: number;

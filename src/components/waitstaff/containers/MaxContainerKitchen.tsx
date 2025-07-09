@@ -1,6 +1,6 @@
 import { ArrowLeft, CheckCircle, Clock, icons, UsersRound } from "lucide-react"
-import type { GeneralProps } from "../../interfaces/Props.interfaces";
-import { UseOrders } from "./OrderContext";
+import type { GeneralProps } from "../../../interfaces/Props.interfaces";
+import { UseOrders } from "../../context/OrderContext";
 
 type Props = {
     onVolver: () => void;

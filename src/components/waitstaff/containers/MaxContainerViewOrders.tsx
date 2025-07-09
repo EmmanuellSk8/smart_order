@@ -1,4 +1,4 @@
-import { OrderBoard, ViewOrdersHeader } from "./ViewOrders";
+import { OrderBoard, ViewOrdersHeader } from "../ViewOrders";
 
 type Props = {
     onGoAddDishes: () => void;

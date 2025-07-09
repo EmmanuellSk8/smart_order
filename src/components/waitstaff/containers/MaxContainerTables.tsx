@@ -1,5 +1,5 @@
-import { UseOrders } from "./OrderContext";
-import { ButtonTableBusy, CardTable, CardTableTitle, TableState } from "./Tables";
+import { UseOrders } from "../../context/OrderContext";
+import { ButtonTableBusy, CardTable, CardTableTitle, TableState } from "../Tables";
 
 type Props = {
     mesas: number[];
