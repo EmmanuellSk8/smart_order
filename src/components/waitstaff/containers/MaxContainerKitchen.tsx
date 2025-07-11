@@ -1,19 +1,19 @@
 import { ArrowLeft, CheckCircle, Clock, icons, UsersRound } from "lucide-react"
-import type { GeneralProps } from "../../../interfaces/Props.interfaces";
+import type { GeneralProps, IconsProps } from "../../../interfaces/Props.interfaces";
 import { UseOrders } from "../../context/OrderContext";
 
 type Props = {
-    onVolver: () => void;
+    OnBack: () => void;
 }
 
-function HeaderKitchen({ onVolver }: Props) {
+function HeaderKitchen({ OnBack }: Props) {
 
     return (
         <>
             <div className="flex w-full justify-between items-center">
                 <div className="flex items-center gap-8 mb-7">
                     <button
-                        onClick={onVolver}
+                        onClick={OnBack}
                         className="bg-white flex items-center border-1 w-32 px-3 py-2 justify-between rounded-sm font-semibold border-gray-300 hover:bg-gray-100/80 cursor-pointer"><ArrowLeft className="size-5"
                         /> Volver </button>
                     <p className="flex flex-col gap-0.5"><span className="text-2xl font-bold">Estado de la Cocina</span><span className="text-gray-600 flex gap-2">Monitorea las órdenes en progreso y listas</span></p>
@@ -30,7 +30,7 @@ function CardOrders({ order, className }: GeneralProps) {
         <>
             <div className={`rounded-md shadow-sm p-4 ${className}`}>
                 <div className="flex justify-between mb-2">
-                    <span className="flex items-center gap-1.5 text-lg px-3 rounded-xl font-semibold "><UsersRound size={16} /> Mesa {order?.mesa}</span>
+                    <span className="flex items-center gap-1.5 text-lg px-3 rounded-xl font-semibold "><UsersRound size={16} /> Mesa {order?.table}</span>
                     <p className="flex items-center gap-1">
                         {order?.status === "preparando" ? (
                             <span className="text-orange-600 flex items-center gap-2 text-sm bg-[#FFEDD5] px-3 rounded-2xl">
@@ -100,25 +100,21 @@ const OrderColumn = ({ title, icon, orders, iconColor, ColorNumberOrders, bgOrde
     );
 };
 
-type OrderrPops = {
-    onVolver: () => void;
-}
-
 const OrderBoard = () => {
 
     const { orders } = UseOrders();
-    const pedidosListos = orders.filter(o => o.status === "listo");
-    const pedidosPreparando = orders.filter(o => o.status === "preparando");
+    const readyOrders = orders.filter(o => o.status === "listo");
+    const cookingOrders = orders.filter(o => o.status === "preparando");
 
-    const thereArentDishPreparing = pedidosPreparando.length == 0
-    const thereArentDishReady = pedidosListos.length == 0
+    const thereArentDishPreparing = cookingOrders.length == 0
+    const thereArentDishReady = readyOrders.length == 0
     return (
         <>
             <section className="flex gap-6 py-6 justify-center h-fit max-[1060px]:flex-col">
                 <OrderColumn
                     title="En progreso"
                     icon=<Clock />
-                    orders={pedidosPreparando}
+                    orders={cookingOrders}
                     iconColor="kitchenIconColor"
                     ColorNumberOrders="kitchenColorNumberOrders"
                     bgOrderCards="kitchenBgOrderCards"
@@ -130,7 +126,7 @@ const OrderBoard = () => {
                 <OrderColumn
                     title="Listos para servir"
                     icon=<CheckCircle />
-                    orders={pedidosListos}
+                    orders={readyOrders}
                     iconColor="readyIconColor"
                     ColorNumberOrders="readyColorNumberOrders"
                     bgOrderCards="readyBgOrderCards"
@@ -144,11 +140,11 @@ const OrderBoard = () => {
     );
 };
 
-function MaxContainerKitchen({ onVolver }: OrderrPops) {
+function MaxContainerKitchen({ OnBack }: Props) {
     return (
         <>
             <div>
-                <HeaderKitchen onVolver={onVolver} />
+                <HeaderKitchen OnBack={OnBack} />
                 <OrderBoard></OrderBoard>
             </div>
         </>
@@ -162,13 +158,6 @@ function ThereArentDishes({ ...props }) {
         </div>
     )
 }
-
-type IconsProps = {
-    name: keyof typeof icons;
-    className?: string;
-    size?: number;
-    strokeWidth?: number;
-};
 
 export default function DynamicIcon({ name, className, size = 24, strokeWidth = 2 }: IconsProps) {
     const LucideIcon = icons[name];

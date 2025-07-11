@@ -4,10 +4,10 @@ import { UseOrders } from "../context/OrderContext"
 import { useRef } from "react";
 import type { OrdersOverViewProps, ViewOrdersProps } from "../../interfaces/Order.interfaces";
 
-function ViewOrdersHeader({ onVolver, onGoAddDishes, numeroMesa }: GeneralProps & ViewOrdersProps) {
+function ViewOrdersHeader({ OnBack, onGoAddDishes, tableNumber }: GeneralProps & ViewOrdersProps) {
 
     const { orders, clearOrdersByTable } = UseOrders();
-    const NumberOrders = orders.filter((o) => Number(o.mesa) === Number(numeroMesa));
+    const NumberOrders = orders.filter((o) => Number(o.table) === Number(tableNumber));
 
     const modal = useRef<HTMLDialogElement | null>(null);
 
@@ -27,10 +27,10 @@ function ViewOrdersHeader({ onVolver, onGoAddDishes, numeroMesa }: GeneralProps 
         <div className="flex w-full justify-between items-center max-[1060px]:flex-wrap">
             <div className="flex items-center gap-8 mb-7">
                 <button
-                    onClick={onVolver}
+                    onClick={OnBack}
                     className="bg-white flex items-center border-1 w-32 px-3 py-2 justify-between rounded-sm font-semibold border-gray-300 hover:bg-gray-100/80 cursor-pointer"><ArrowLeft className="size-5"
                     /> Volver </button>
-                <p className="flex flex-col gap-0.5"><span className="text-2xl font-bold">Mesa {numeroMesa}</span><span className="text-gray-600 flex gap-2">Órdenes ({NumberOrders.length})</span></p>
+                <p className="flex flex-col gap-0.5"><span className="text-2xl font-bold">Mesa {tableNumber}</span><span className="text-gray-600 flex gap-2">Órdenes ({NumberOrders.length})</span></p>
             </div>
             <div className="flex gap-3 max-[890px]:flex-col max-[890px]:w-full">
                 <button
@@ -52,7 +52,7 @@ function ViewOrdersHeader({ onVolver, onGoAddDishes, numeroMesa }: GeneralProps 
                             onClick={closeModal}
                             className="cursor-pointer hover:scale-105 duration-300 flex rounded-sm bg-gray-500 py-2 px-5 items-center gap-2 text-white"><Trash2 className="size-5" />Cancelar</button>
                         <button
-                            onClick={() => { clearOrdersByTable(numeroMesa); onVolver(); }}
+                            onClick={() => { clearOrdersByTable(tableNumber); OnBack(); }}
                             className="cursor-pointer hover:scale-105 duration-300 flex rounded-sm bg-red-500 py-2 px-5 items-center gap-2 text-white text-nowrap"><Trash2 className="size-5" /> Limpiar Mesa</button>
                     </div>
                 </dialog>
@@ -118,13 +118,13 @@ const OrderColumn = ({ title, icon, orders, iconColor, ColorNumberOrders, bgOrde
     );
 };
 
-const OrderBoard = ({ numeroMesa, onVolver, onGoAddDishes }: ViewOrdersProps) => {
+const OrderBoard = ({ tableNumber, OnBack, onGoAddDishes }: ViewOrdersProps) => {
 
     const { orders } = UseOrders();
 
-    const pedidosMesa = orders.filter((o) => Number(o.mesa) === Number(numeroMesa));
-    const pedidosListos = pedidosMesa.filter(o => o.status === "listo");
-    const pedidosPreparando = pedidosMesa.filter(o => o.status === "preparando");
+    const tableOrders = orders.filter((o) => Number(o.table) === Number(tableNumber));
+    const readyOrders = tableOrders.filter(o => o.status === "listo");
+    const cookingOrders = tableOrders.filter(o => o.status === "preparando");
 
     return (
         <>
@@ -132,7 +132,7 @@ const OrderBoard = ({ numeroMesa, onVolver, onGoAddDishes }: ViewOrdersProps) =>
                 <OrderColumn
                     title="Pedidos Listos"
                     icon=<CheckCircle />
-                    orders={pedidosListos}
+                    orders={readyOrders}
                     iconColor="readyIconColor"
                     ColorNumberOrders="readyColorNumberOrders"
                     bgOrderCards="readyBgOrderCards"
@@ -141,7 +141,7 @@ const OrderBoard = ({ numeroMesa, onVolver, onGoAddDishes }: ViewOrdersProps) =>
                 <OrderColumn
                     title="En Preparación"
                     icon=<Clock />
-                    orders={pedidosPreparando}
+                    orders={cookingOrders}
                     iconColor="cookingIconColor"
                     ColorNumberOrders="cookingColorNumberOrders"
                     bgOrderCards="cookingBgOrderCards"
@@ -150,18 +150,18 @@ const OrderBoard = ({ numeroMesa, onVolver, onGoAddDishes }: ViewOrdersProps) =>
 
             <div className="">
                 <OrdersOverView
-                    numeroMesa={numeroMesa} onVolver={onVolver} onGoAddDishes={onGoAddDishes}
-                    ready={orders.filter(o => o.status === "listo" && o.mesa === numeroMesa).length}
-                    cooking={orders.filter(o => o.status === "preparando" && o.mesa === numeroMesa).length}
+                    tableNumber={tableNumber} OnBack={OnBack} onGoAddDishes={onGoAddDishes}
+                    ready={orders.filter(o => o.status === "listo" && o.table === tableNumber).length}
+                    cooking={orders.filter(o => o.status === "preparando" && o.table === tableNumber).length}
                 />
             </div>
         </>
     );
 };
 
-function OrdersOverView({ numeroMesa, ready, cooking }: OrdersOverViewProps & ViewOrdersProps) {
+function OrdersOverView({ tableNumber, ready, cooking }: OrdersOverViewProps & ViewOrdersProps) {
     const { orders } = UseOrders();
-    const NumberOrders = orders.filter((o) => Number(o.mesa) === Number(numeroMesa));
+    const NumberOrders = orders.filter((o) => Number(o.table) === Number(tableNumber));
     const total = NumberOrders.reduce((acc, curr) => acc + (curr.quantity || 1), 0);
 
     return (

@@ -1,16 +1,16 @@
 import { ArrowLeft, Minus, Plus } from "lucide-react"
 import type { AddDishProps, GeneralProps } from "../../interfaces/Props.interfaces"
 
-function AddDishHeader({ numeroMesa, onVolver, ...props }: AddDishProps & GeneralProps) {
+function AddDishHeader({ tableNumber, OnBack, ...props }: AddDishProps & GeneralProps) {
     return (
         <>
             <div className="flex w-full">
                 <div className="flex items-center gap-8 mb-7 w-full">
                     <button
-                        onClick={onVolver}
+                        onClick={OnBack}
                         className="bg-white flex items-center border-1 w-32 px-3 py-2 justify-between rounded-sm font-semibold border-gray-300 hover:bg-gray-100/80 cursor-pointer"><ArrowLeft className="size-5" /> Volver </button>
 
-                    <p className="flex flex-col gap-0.5"><span className="text-2xl font-bold">Mesa {numeroMesa}</span><span className="text-gray-600">Agregar platillos al pedido</span></p>
+                    <p className="flex flex-col gap-0.5"><span className="text-2xl font-bold">Mesa {tableNumber}</span><span className="text-gray-600">Agregar platillos al pedido</span></p>
                 </div>
                 <div className="">{props.children}</div>
             </div>

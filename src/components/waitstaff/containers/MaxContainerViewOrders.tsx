@@ -2,15 +2,15 @@ import { OrderBoard, ViewOrdersHeader } from "../ViewOrders";
 
 type Props = {
     onGoAddDishes: () => void;
-    onVolver: () => void;
-    numeroMesa: number;
+    OnBack: () => void;
+    tableNumber: number;
 }
 
-export default function MaxContainerViewOrders({ onVolver, onGoAddDishes, numeroMesa }: Props) {
+export default function MaxContainerViewOrders({ OnBack, onGoAddDishes, tableNumber }: Props) {
     return (
         <>
-            <ViewOrdersHeader onGoAddDishes={onGoAddDishes} numeroMesa={numeroMesa} onVolver={onVolver}/>
-            <OrderBoard numeroMesa={numeroMesa} onVolver={onVolver} onGoAddDishes={onGoAddDishes}></OrderBoard>
+            <ViewOrdersHeader onGoAddDishes={onGoAddDishes} tableNumber={tableNumber} OnBack={OnBack}/>
+            <OrderBoard tableNumber={tableNumber} OnBack={OnBack} onGoAddDishes={onGoAddDishes}></OrderBoard>
         </>
     )
 }

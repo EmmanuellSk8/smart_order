@@ -1,7 +1,7 @@
 import { UsersRound, ChefHat } from 'lucide-react';
 import type { HeaderProps } from '../../interfaces/Props.interfaces';
 
-export default function Header({ onHeader, onTables, setVistaActual, vistaActual }: HeaderProps) {
+export default function Header({ onHeader, onTables, setCurrentView, currentView }: HeaderProps) {
     return (
         <>
             <header className="bg-white w-full">
@@ -10,21 +10,21 @@ export default function Header({ onHeader, onTables, setVistaActual, vistaActual
                     <div className="flex gap-4 ">
 
                         <button
-                            onClick={() => { setVistaActual("mesas"); onTables(); }}
-                            className={`flex gap-2 py-2.5 px-5 rounded-sm border-1 border-gray-600  ${vistaActual === "mesas"
+                            onClick={() => { setCurrentView("tables"); onTables(); }}
+                            className={`flex gap-2 py-2.5 px-5 rounded-sm border-1 border-gray-600  ${currentView === "tables"
                                 ? "bg-black text-white font-semibold"
                                 : "bg-white text-black"
                                 }`}><UsersRound />Mesas</button>
 
                         <button
-                            className={`flex gap-2 py-2.5 px-5 rounded-sm border-1 border-gray-600 ${vistaActual === "cocina"
+                            className={`flex gap-2 py-2.5 px-5 rounded-sm border-1 border-gray-600 ${currentView === "cocina"
                                 ? "bg-black text-white font-semibold"
                                 : "bg-white text-black"
                                 }`}
 
                             onClick={() => {
                                 onHeader();
-                                setVistaActual("cocina");
+                                setCurrentView("cocina");
                             }}>
                             <ChefHat />
                             Cocina</button>

@@ -7,13 +7,13 @@ export type Order = {
   category: string;
   time: string;
   status: "listo" | "preparando";
-  mesa: number
+  table: number
 };
 
 export type OrderContextType = {
   orders: Order[];
   addOrder: (order: Order) => void;
-  clearOrdersByTable: (mesa: number) => void;
+  clearOrdersByTable: (table: number) => void;
   markAsServed: (id: string | undefined) => void;
 }
 
@@ -23,7 +23,7 @@ export type OrdersOverViewProps = {
 };
 
 export type ViewOrdersProps = {
-    numeroMesa: number;
-    onVolver: () => void;
+    tableNumber: number;
+    OnBack: () => void;
     onGoAddDishes: () => void;
 }

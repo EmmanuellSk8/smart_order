@@ -1,5 +1,6 @@
 import type { Dispatch, SetStateAction } from "react";
 import type { Order } from "./Order.interfaces";
+import type { icons } from "lucide-react";
 
 export type GeneralProps = React.HTMLAttributes<HTMLDivElement> & {
   className?: string;
@@ -19,8 +20,8 @@ export type GeneralProps = React.HTMLAttributes<HTMLDivElement> & {
 }
 
 export type AddDishProps = {
-    numeroMesa?: number;
-    onVolver?: () => void;
+    tableNumber?: number;
+    OnBack?: () => void;
     notes?: string;
     setNotes?: Dispatch<SetStateAction<string>>;
 }
@@ -28,8 +29,8 @@ export type AddDishProps = {
 export type HeaderProps = {
     onHeader: () => void;
     onTables: () => void;
-    vistaActual: "mesas" | "cocina" | "dishes" | "resumen";
-  setVistaActual: (vista: "mesas" | "cocina" | "dishes" | "resumen") => void;
+    currentView: "tables" | "cocina" | "dishes" | "resumen";
+    setCurrentView: (vista: "tables" | "cocina" | "dishes" | "resumen") => void;
 }
 
 export type SearchEngineProps = {
@@ -40,7 +41,14 @@ export type SearchEngineProps = {
 }
 
 export type TableProps = {
-  numeroMesa: number;
-  onIrResumen: () => void;
+  tableNumber: number;
+  onGoResumen: () => void;
   onGoAddDishes: () => void;
 }
+
+export type IconsProps = {
+    name: keyof typeof icons;
+    className?: string;
+    size?: number;
+    strokeWidth?: number;
+};

@@ -6,8 +6,8 @@ import { useState } from "react";
 import { UseOrders } from "../../context/OrderContext";
 
 type Props = {
-  numeroMesa: number;
-  onVolver: () => void;
+  tableNumber: number;
+  OnBack: () => void;
 }
 
 type Dish = {
@@ -19,54 +19,54 @@ type Dish = {
   notes?: string
 };
 
-export default function MaxContainerDishes({ numeroMesa, onVolver }: Props) {
-  const [platilloSeleccionado, setPlatilloSeleccionado] = useState<Dish | null>(null);
-  const [pedidos, setPedidos] = useState<Dish[]>([]);
-  const [cantidad, setCantidad] = useState<number>(1);
+export default function MaxContainerDishes({ tableNumber, OnBack }: Props) {
+  const [selectedDish, setSelectedDish] = useState<Dish | null>(null);
+  const [orders, setOrders] = useState<Dish[]>([]);
+  const [quantity, setQuantity] = useState<number>(1);
   const [notes, setNotes] = useState<string>("");
   const [searchText, setSearchText] = useState("")
   const [filterCategory, setFilterCategory] = useState("Entradas")
 
-  const eliminarPedido = (id: number) => {
-    setPedidos(prev => prev.filter(p => p.id !== id));
+  const deleteOrder = (id: number) => {
+    setOrders(prev => prev.filter(p => p.id !== id));
   };
 
   const { addOrder } = UseOrders();
 
-  const handleEnviarPedidos = () => {
-    if (pedidos.length === 0) return;
+  const handleSendOrders = () => {
+    if (orders.length === 0) return;
 
-    pedidos.forEach((pedido) => {
+    orders.forEach((order) => {
       const newOrder = {
         id: Date.now().toString() + Math.random().toString(36).substring(2),
-        name: pedido.name,
-        image: pedido.image,
-        quantity: pedido.quantity || 1,
+        name: order.name,
+        image: order.image,
+        quantity: order.quantity || 1,
         status: "preparando" as const,
-        mesa: Number(numeroMesa),
+        table: Number(tableNumber),
         time: new Date().toLocaleTimeString(),
         category: filterCategory,
-        note: pedido.notes || "",
+        note: order.notes || "",
       };
       addOrder(newOrder);
     });
-    setPedidos([]);
+    setOrders([]);
   };
 
-  const handleConfirmarPedido = (nuevoPedido: Dish) => {
-    setPedidos(prev => {
-      const existe = prev.find(p => p.id === nuevoPedido.id);
-      if (existe) {
+  const handleConfirmOrder = (newOrder: Dish) => {
+    setOrders(prev => {
+      const exists = prev.find(p => p.id === newOrder.id);
+      if (exists) {
         return prev.map(p =>
-          p.id === nuevoPedido.id
-            ? { ...p, quantity: (p.quantity || 1) + (nuevoPedido.quantity || 1) }
+          p.id === newOrder.id
+            ? { ...p, quantity: (p.quantity || 1) + (newOrder.quantity || 1) }
             : p
         );
       } else {
-        return [...prev, nuevoPedido];
+        return [...prev, newOrder];
       }
     });
-    setPlatilloSeleccionado(null);
+    setSelectedDish(null);
     setNotes("")
   };
 
@@ -75,13 +75,13 @@ export default function MaxContainerDishes({ numeroMesa, onVolver }: Props) {
 
   return (
     <>
-      <AddDishHeader numeroMesa={numeroMesa} onVolver={onVolver}>
-        {pedidos.length > 0 && (
+      <AddDishHeader tableNumber={tableNumber} OnBack={OnBack}>
+        {orders.length > 0 && (
           <button
-            onClick={handleEnviarPedidos}
+            onClick={handleSendOrders}
             className="bg-black text-white px-4 py-2 rounded-sm text-sm font-semibold flex items-center gap-2 text-nowrap mt-6"
           > <ShoppingCart className="size-4.5" />
-            Enviar pedido ({pedidos.length})
+            Enviar pedido ({orders.length})
           </button>
         )}
       </AddDishHeader>
@@ -106,7 +106,7 @@ export default function MaxContainerDishes({ numeroMesa, onVolver }: Props) {
                   .map(item => (
                     <div
                       onClick={() => {
-                        setPlatilloSeleccionado(item)
+                        setSelectedDish(item)
                       }}
                       key={item.id}
                       className="border-1 border-gray-300 rounded-lg bg-white flex items-center gap-5 p-3.5 w-full"
@@ -132,31 +132,31 @@ export default function MaxContainerDishes({ numeroMesa, onVolver }: Props) {
 
         <div className="order-dish-responsive mt-9">
 
-          {platilloSeleccionado && (
+          {selectedDish && (
             <ContainerOrderDish className="order-dish-responsive w-full xl:max-w-[1950px] lg:max-w-[1000px] sm:max-w-[500px] min-w-[450px] sm:flex-shrink-0 sm:w-auto sm:px-10 mb-8">
               <div className="p-4">
 
                 <div className="flex items-center flex-col">
                   <img
                     className="size-30 object-cover aspect-square rounded-lg"
-                    src={platilloSeleccionado.image}
+                    src={selectedDish.image}
                     alt=""
                   />
-                  <p className="text-lg font-semibold">{platilloSeleccionado.name}</p>
-                  <p className="text-green-700 text-lg font-semibold">${platilloSeleccionado.price}</p>
+                  <p className="text-lg font-semibold">{selectedDish.name}</p>
+                  <p className="text-green-700 text-lg font-semibold">${selectedDish.price}</p>
                 </div>
 
-                <AddDish quantity={cantidad} setQuantity={setCantidad} />
+                <AddDish quantity={quantity} setQuantity={setQuantity} />
                 <AddDishAndNotes notes={notes} setNotes={setNotes} />
                 <button
                   onClick={() =>
-                    handleConfirmarPedido({
-                      id: platilloSeleccionado.id,
-                      name: platilloSeleccionado.name,
-                      image: platilloSeleccionado.image,
-                      price: platilloSeleccionado.price,
+                    handleConfirmOrder({
+                      id: selectedDish.id,
+                      name: selectedDish.name,
+                      image: selectedDish.image,
+                      price: selectedDish.price,
                       notes: notes,
-                      quantity: cantidad,
+                      quantity: quantity,
                     })
                   }
                   className="mt-4 bg-black text-white font-semibold py-2 px-4 rounded-sm w-full"
@@ -167,24 +167,24 @@ export default function MaxContainerDishes({ numeroMesa, onVolver }: Props) {
             </ContainerOrderDish>
           )}
 
-          {pedidos.length > 0 && (
+          {orders.length > 0 && (
             <ContainerOrderDish className="flex flex-col gap-6.5 min-w-[450px]">
               <h2 className="mb-4 text-lg font-semibold">Pedido Actual</h2>
-              {pedidos.map((pedido) => (
-                <div key={pedido.id} className="flex items-center gap-3 bg-gray-200/80 px-3 py-2 rounded-sm">
+              {orders.map((order) => (
+                <div key={order.id} className="flex items-center gap-3 bg-gray-200/80 px-3 py-2 rounded-sm">
                   <img
                     className="size-12 object-cover aspect-square rounded-lg"
-                    src={pedido.image}
+                    src={order.image}
                     alt=""
                   />
                   <div className="flex items-center w-full justify-between">
                     <div>
-                      <p className="text-sm font-semibold">{pedido.name}</p>
-                      <CardDishesQuantity>{pedido.quantity}</CardDishesQuantity>
+                      <p className="text-sm font-semibold">{order.name}</p>
+                      <CardDishesQuantity>{order.quantity}</CardDishesQuantity>
                     </div>
                     <div
                       className="border-1 border-gray-300 p-1.5 rounded-lg cursor-pointer"
-                      onClick={() => eliminarPedido(pedido.id)}
+                      onClick={() => deleteOrder(order.id)}
                     >
                       <Minus className="size-5" />
                     </div>

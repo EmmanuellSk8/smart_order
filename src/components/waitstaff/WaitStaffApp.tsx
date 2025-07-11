@@ -8,9 +8,9 @@ import { NotificationPanel } from "./Notifications";
 import { MaxContainerKitchen } from "./containers/MaxContainerKitchen";
 
 export default function WaitStaffApp() {
-  const mesas = Array.from({ length: 16 }, (_, i) => i + 1);
-  const [vistaActual, setVistaActual] = useState<"mesas" | "dishes" | "resumen" | "cocina">("mesas");
-  const [mesaSeleccionada, setMesaSeleccionada] = useState<number>(1);
+  const tables = Array.from({ length: 16 }, (_, i) => i + 1);
+  const [currentView, setCurrentView] = useState<"tables" | "dishes" | "resumen" | "cocina">("tables");
+  const [selectTable, setSelectTable] = useState<number>(1);
 
   return (
     <>
@@ -22,50 +22,50 @@ export default function WaitStaffApp() {
         <div className="flex flex-col flex-1">
 
           <Header
-            onTables={() => { setVistaActual("mesas") }}
-            onHeader={() => { setVistaActual("cocina") }}
-            setVistaActual={setVistaActual}
-            vistaActual={vistaActual}
+            onTables={() => { setCurrentView("tables") }}
+            onHeader={() => { setCurrentView("cocina") }}
+            setCurrentView={setCurrentView}
+            currentView={currentView}
           />
 
           <main className="flex-1 overflow-auto p-4 max-w-[1600px]">
 
-            {vistaActual === "mesas" && (
+            {currentView === "tables" && (
               <MaxContainerTables
-                mesas={mesas}
-                onIrResumen={(mesa) => {
-                  setMesaSeleccionada(mesa)
-                  setVistaActual("resumen")
+                tables={tables}
+                onGoResumen={(table) => {
+                  setSelectTable(table)
+                  setCurrentView("resumen")
                 }}
-                onGoAddDishes={(mesa) => {
-                  setMesaSeleccionada(mesa)
-                  setVistaActual("dishes")
+                onGoAddDishes={(table) => {
+                  setSelectTable(table)
+                  setCurrentView("dishes")
                 }}
-                onSeleccionar={(mesa) => {
-                  setMesaSeleccionada(mesa);
-                  setVistaActual("dishes");
+                onSelect={(table) => {
+                  setSelectTable(table);
+                  setCurrentView("dishes");
                 }}
               />
             )}
 
-            {vistaActual === "dishes" && mesaSeleccionada !== null && (
+            {currentView === "dishes" && selectTable !== null && (
               <MaxContainerDishes
-                numeroMesa={mesaSeleccionada}
-                onVolver={() => setVistaActual("mesas")}
+                tableNumber={selectTable}
+                OnBack={() => setCurrentView("tables")}
               />
             )}
 
-            {vistaActual === "resumen" && mesaSeleccionada !== null && (
+            {currentView === "resumen" && selectTable !== null && (
               <MaxContainerViewOrders
-                numeroMesa={mesaSeleccionada}
-                onVolver={() => setVistaActual("mesas")}
-                onGoAddDishes={() => setVistaActual("dishes")}
+                tableNumber={selectTable}
+                OnBack={() => setCurrentView("tables")}
+                onGoAddDishes={() => setCurrentView("dishes")}
               />
             )}
 
-            {vistaActual === "cocina" &&
+            {currentView === "cocina" &&
 
-              <MaxContainerKitchen onVolver={() => { setVistaActual("mesas") }} />
+              <MaxContainerKitchen OnBack={() => { setCurrentView("tables") }} />
             }
 
           </main>

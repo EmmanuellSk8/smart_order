@@ -39,7 +39,7 @@ function NotificationPanel() {
     window.addNotificationTable = addNotificationTable;
   }
 
-  const noHayNotificaciones = chef.length === 0 && table.length === 0;
+  const noNotificacions = chef.length === 0 && table.length === 0;
 
   return (
     <aside className="w-72 min-h-screen border-r-1 border-gray-300 top-0 bg-white">
@@ -50,7 +50,7 @@ function NotificationPanel() {
 
       <div className="border-b-1 border-gray-300 mt-4" />
 
-      {noHayNotificaciones && <ThereArentNotifications />}
+      {noNotificacions && <ThereArentNotifications />}
 
       <ToastNotifications
         chef={chef}

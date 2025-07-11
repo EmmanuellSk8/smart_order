@@ -29,7 +29,7 @@ function TableState({ tableState, className }: GeneralProps) {
   );
 }
 
-function ButtonTableBusy({ className, order, onIrResumen, onGoAddDishes}: GeneralProps & TableProps) {
+function ButtonTableBusy({ className, order, onGoResumen, onGoAddDishes}: GeneralProps & TableProps) {
   return (
     <>
       <p className="font-semibold text-lg mt-3 flex w-full justify-between">Pedidos: {order?.status === "listo" ? <span className="flex items-center gap-2 text-[#22C55E] font-semibold text-lg"><CircleCheck className="size-[20px]" /> Pedido listo</span> : <span className="flex items-center gap-2 text-[#F9802C] font-semibold text-[17px]"><ClockFading className="size-[18px] mt-0.5" /> Preparando</span>}</p>
@@ -37,7 +37,7 @@ function ButtonTableBusy({ className, order, onIrResumen, onGoAddDishes}: Genera
       <div className="flex flex-col gap-2 mt-3">
 
         <button 
-        onClick={onIrResumen}
+        onClick={onGoResumen}
         className={`border-gray-600 border-1 py-2 px-3 rounded-lg w-full cursor-pointer ${className}`}
         >Ver pedidos</button>
         <button
