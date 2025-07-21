@@ -16,8 +16,8 @@ const OrderProvider = ({ children }: { children: ReactNode }) => {
     });
   };
 
-  const clearOrdersByTable = (mesa: number) => {
-    setOrders((prev) => prev.filter((order) => order.mesa !== mesa))
+  const clearOrdersByTable = (table: number) => {
+    setOrders((prev) => prev.filter((order) => order.table !== table))
   };
 
   const markAsServed = (id: string | undefined) => {
