@@ -1,5 +1,10 @@
 import OrderPanelApp from "../components/kitchen/OrderPanelApp";
+import { KitchenProvider } from "../components/context/KitchenContext";
 
 export default function OrderPanel() {
-  return <OrderPanelApp />;
+  return (
+    <KitchenProvider>
+      <OrderPanelApp />;
+    </KitchenProvider>
+  );
 }
