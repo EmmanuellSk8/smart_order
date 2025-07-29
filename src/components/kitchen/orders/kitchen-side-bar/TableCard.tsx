@@ -1,5 +1,5 @@
 import { Users } from "lucide-react";
-import { useState } from "react";
+import { useKitchenContext } from "../../hooks/useKitchenContext";
 
 export interface TableCardProps {
   order: {
@@ -11,14 +11,14 @@ export interface TableCardProps {
     time: string;
   };
   variant?: "new" | "in-progress" | "completed";
-};
+}
 
 interface OrderDish {
   name: string;
   ingredients: string[];
   dishStatus: "stand-by" | "in-progress" | "completed";
   category: "Plato fuerte" | "Postres" | "Bebida" | "Entrada";
-};
+}
 
 const getVariantStyles = (variant?: TableCardProps["variant"]) => {
   switch (variant) {
@@ -46,14 +46,20 @@ const getVariantStyles = (variant?: TableCardProps["variant"]) => {
 };
 
 export default function TableCard({ order, variant }: TableCardProps) {
-  const [isSelected, setIsSelected] = useState(false);
+  const { selectedOrder, setSelectedOrder } = useKitchenContext();
   const styles = getVariantStyles(variant);
+
+  const isSelected = selectedOrder?.id === order.id;
+
+  const handleSelectOrder = () => {
+    setSelectedOrder(order)
+  }
 
   return (
     <div
       tabIndex={0}
       role="button"
-      onClick={() => setIsSelected(!isSelected)}
+      onClick={handleSelectOrder}
       className={`flex flex-col gap-2 rounded-xl p-4 cursor-pointer hover:bg-gray-50 ${
         isSelected ? "border-3" : "border-l-3"
       }`}
