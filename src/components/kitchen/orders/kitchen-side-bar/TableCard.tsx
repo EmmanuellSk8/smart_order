@@ -75,7 +75,7 @@ export default function TableCard({ order, variant }: TableCardProps) {
 
       <div className="flex flex-col gap-0.5">
         <span className="text-sm text-gray-500">
-          {order.quantity} platillos
+          {order.items.length} platillos
         </span>
         <span className="text-sm text-gray-500">#{order.id}</span>
       </div>
