@@ -1,16 +1,18 @@
-// InProgressOrderDetails.tsx
+import { CircleCheckBig } from "lucide-react"; // InProgressOrderDetails.tsx
 import { useEffect, useState } from "react";
 import { useKitchenContext } from "../../hooks/useKitchenContext";
 import DishCard from "./DishCard";
 
 export default function InProgressOrderDetails() {
   const { selectedOrder, updateOrderStatus } = useKitchenContext();
-  
+
   // Estado para rastrear qué dishes han sido marcados como completados
-  const [completedDishes, setCompletedDishes] = useState<Set<number>>(new Set());
+  const [completedDishes, setCompletedDishes] = useState<Set<number>>(
+    new Set()
+  );
 
   const handleToggleDishCompleted = (dishIndex: number) => {
-    setCompletedDishes(prev => {
+    setCompletedDishes((prev) => {
       const newSet = new Set(prev);
       if (newSet.has(dishIndex)) {
         newSet.delete(dishIndex); // Desmarcar si ya estaba marcado
@@ -65,19 +67,21 @@ export default function InProgressOrderDetails() {
           {/* Botón dinámico según el estado */}
           {areAllDishesMarkedCompleted() ? (
             // Botón para completar toda la orden
-            <button
-              onClick={handleCompleteOrder}
-              className="mt-4 px-4 py-4 rounded-lg text-xl font-semibold bg-green-500 text-white hover:bg-green-600 cursor-pointer transition-colors"
-            >
-              🎉 Enviar pedido completado
-            </button>
+              <button
+                onClick={handleCompleteOrder}
+                className="mt-4 px-4 py-4 rounded-lg text-xl font-semibold bg-green-500 text-white hover:bg-green-600 cursor-pointer transition-colors flex gap-2 items-center justify-center"
+              >
+                <CircleCheckBig className="w-6 h-6" />
+                <p>Enviar pedido completado</p>
+              </button>
           ) : (
             // Botón para marcar todos los dishes
             <button
               onClick={handleMarkAllDishes}
               className="mt-4 px-4 py-4 rounded-lg text-xl font-semibold bg-blue-500 text-white hover:bg-blue-600 cursor-pointer transition-colors"
             >
-              Marcar todos los platillos ({completedDishes.size}/{selectedOrder.items.length})
+              Marcar todos los platillos ({completedDishes.size}/
+              {selectedOrder.items.length})
             </button>
           )}
         </div>
