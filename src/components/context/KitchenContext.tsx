@@ -12,6 +12,18 @@ const mockedOrders = [
         dishStatus: "stand-by" as const,
         category: "Plato fuerte" as const,
       },
+      {
+        name: "Tiramisu",
+        ingredients: ["Café", "Queso mascarpone", "Cacao"],
+        dishStatus: "stand-by" as const,
+        category: "Postres" as const,
+      },
+      {
+        name: "Coca-Cola",
+        ingredients: ["Refresco"],
+        dishStatus: "stand-by" as const,
+        category: "Bebida" as const,
+      },
       // ...resto de items
     ],
     status: "new" as const,
@@ -28,6 +40,18 @@ const mockedOrders = [
         dishStatus: "in-progress" as const,
         category: "Entrada" as const,
       },
+      {
+        name: "Agua Mineral",
+        ingredients: ["Agua con gas"],
+        dishStatus: "in-progress" as const,
+        category: "Bebida" as const,
+      },
+      {
+        name: "Brownie con Helado",
+        ingredients: ["Chocolate", "Nueces", "Helado de vainilla"],
+        dishStatus: "in-progress" as const,
+        category: "Postres" as const,
+      },
     ],
     status: "in-progress" as const,
     time: "12:35 PM",
@@ -42,6 +66,18 @@ const mockedOrders = [
         ingredients: ["Espagueti", "Huevo", "Panceta"],
         dishStatus: "completed" as const,
         category: "Plato fuerte" as const,
+      },
+      {
+        name: "Gelato de Fresa",
+        ingredients: ["Fresas", "Leche", "Azúcar"],
+        dishStatus: "completed" as const,
+        category: "Postres" as const,
+      },
+      {
+        name: "Jugo de Naranja",
+        ingredients: ["Naranjas frescas"],
+        dishStatus: "completed" as const,
+        category: "Bebida" as const,
       },
       // ...resto de items
     ],
@@ -76,7 +112,7 @@ interface KitchenContextType {
     completed: Order[];
   };
 
-  // updateOrderStatus: (orderId: string, newStatus: Order["status"]) => void;
+  updateOrderStatus: (orderId: string, newStatus: Order["status"]) => void;
   addOrder: (order: Order) => void;
 }
 
@@ -87,16 +123,41 @@ const KitchenProvider = ({ children }: { children: ReactNode }) => {
   const [newOrders, setNewOrders] = useState<Order[]>(
     mockedOrders.filter((order) => order.status === "new")
   );
-  const [inProgressOrders, ] = useState<Order[]>(
+  const [inProgressOrders, setInProgressOrders] = useState<Order[]>(
     mockedOrders.filter((order) => order.status === "in-progress")
   );
-  const [completedOrders, ] = useState<Order[]>(
+  const [completedOrders, setCompletedOrders] = useState<Order[]>(
     mockedOrders.filter((order) => order.status === "completed")
   );
 
-  // const updateOrderStatus = (orderId: string, newStatus: Order["status"]) => {
-  //   //TODO: Update logic to change the status of an order
-  // };
+  const updateOrderStatus = (orderId: string, newStatus: Order["status"]) => {
+    const allOrders = [...newOrders, ...inProgressOrders, ...completedOrders];
+    const orderToMove = allOrders.find((order) => order.id === orderId);
+
+    if (!orderToMove) return;
+
+    const updatedOrder = { ...orderToMove, status: newStatus };
+
+    setNewOrders((prev) => prev.filter((order) => order.id !== orderId));
+    setInProgressOrders((prev) => prev.filter((order) => order.id !== orderId));
+    setCompletedOrders((prev) => prev.filter((order) => order.id !== orderId));
+
+    switch (newStatus) {
+      case "new":
+        setNewOrders((prev) => [...prev, updatedOrder]);
+        break;
+      case "in-progress":
+        setInProgressOrders((prev) => [...prev, updatedOrder]);
+        break;
+      case "completed":
+        setCompletedOrders((prev) => [...prev, updatedOrder]);
+        break;
+    }
+
+    if(selectedOrder?.id === orderId) {
+      setSelectedOrder(updatedOrder);
+    }
+  };
 
   const addOrder = (order: Order) => {
     setNewOrders((prev) => [...prev, order]);
@@ -110,7 +171,7 @@ const KitchenProvider = ({ children }: { children: ReactNode }) => {
       inProgress: inProgressOrders,
       completed: completedOrders,
     },
-    // updateOrderStatus,
+     updateOrderStatus,
     addOrder,
   };
 
