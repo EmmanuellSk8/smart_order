@@ -1,7 +1,10 @@
 import { AlertTriangle, Clock, Target } from "lucide-react";
 import { useEffect, useState } from "react";
+import { useKitchenContext } from "./hooks/useKitchenContext";
 
 export default function KitchenHeader() {
+  const { orders } = useKitchenContext();
+
   const [time, setTime] = useState(new Date().toLocaleTimeString());
   const [currentDate, setCurrentDate] = useState(new Date());
   const [timeSpan, setTimeSpan] = useState("");
@@ -49,7 +52,7 @@ export default function KitchenHeader() {
           <div className="flex items-center gap-6 ml-8">
             <div className="flex items-center gap-2">
               <Target className="w-5 h-5 text-green-600" />
-              <span className="text-sm font-medium">2 Activos</span>
+              <span className="text-sm font-medium">{orders.inProgress.length} en cocina</span>
             </div>
             <div className="flex items-center gap-2">
               <Clock className="w-5 h-5 text-blue-600" />
