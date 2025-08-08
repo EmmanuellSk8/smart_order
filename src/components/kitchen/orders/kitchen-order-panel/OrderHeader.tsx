@@ -17,7 +17,7 @@ export default function OrderHeader() {
   };
 
   return (
-    <header className="flex items-center justify-between w-full p-4">
+    <header className="flex items-center justify-between w-full p-6">
       <div className="flex items-center gap-4">
         <HandPlatter className="text-yellow-600 w-6 h-6" />
         <h1 className="text-3xl font-bold">Mesa {selectedOrder?.table}</h1>
