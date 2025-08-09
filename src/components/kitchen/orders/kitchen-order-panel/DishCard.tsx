@@ -32,7 +32,7 @@ function DishCard({ item, index, variant, isCompleted = false, onMarkComplete }:
 
 
   return (
-    <div className="flex items-start bg-white border rounded-lg border-gray-300 w-full p-4 mb-2 gap-4">
+    <div className= {`flex items-start ${variant === "completed" ? 'bg-green-100/50' : 'bg-white'} border rounded-lg border-gray-300 w-full p-4 mb-2 gap-4`}>
       <div className="flex w-10 h-10 rounded-full bg-[#F3F4F6] text-[#4B5563] text-sm justify-center items-center">
         {index + 1}
       </div>
