@@ -106,6 +106,10 @@ interface KitchenContextType {
   selectedOrder: Order | null;
   setSelectedOrder: (order: Order | null) => void;
 
+  // Estado de filtro
+  searchFilter: string;
+  setSearchFilter: (filter: string) => void;
+
   orders: {
     new: Order[];
     inProgress: Order[];
@@ -120,6 +124,8 @@ const KitchenContext = createContext<KitchenContextType | undefined>(undefined);
 
 const KitchenProvider = ({ children }: { children: ReactNode }) => {
   const [selectedOrder, setSelectedOrder] = useState<Order | null>(null);
+  const [searchFilter, setSearchFilter] = useState<string>("");
+  
   const [newOrders, setNewOrders] = useState<Order[]>(
     mockedOrders.filter((order) => order.status === "new")
   );
@@ -130,18 +136,28 @@ const KitchenProvider = ({ children }: { children: ReactNode }) => {
     mockedOrders.filter((order) => order.status === "completed")
   );
 
+  // Función para filtrar órdenes por mesa
+  const filterOrdersByTable = (orders: Order[]): Order[] => {
+    if (!searchFilter.trim()) return orders;
+    return orders.filter(order => 
+      order.table.toString().includes(searchFilter.trim())
+    );
+  };
+
   const updateOrderStatus = (orderId: string, newStatus: Order["status"]) => {
     const allOrders = [...newOrders, ...inProgressOrders, ...completedOrders];
-    const orderToMove = allOrders.find((order) => order.id === orderId);
+    const orderToMove = allOrders.find((order) => order.id === orderId); // Encontrar la orden a actualizar
 
     if (!orderToMove) return;
 
-    const updatedOrder = { ...orderToMove, status: newStatus };
+    const updatedOrder = { ...orderToMove, status: newStatus }; // Actualizar el estado de la orden
 
+    // Actualizar las listas de órdenes
     setNewOrders((prev) => prev.filter((order) => order.id !== orderId));
     setInProgressOrders((prev) => prev.filter((order) => order.id !== orderId));
     setCompletedOrders((prev) => prev.filter((order) => order.id !== orderId));
 
+    // Añadir la orden actualizada a la lista correspondiente según el nuevo estado
     switch (newStatus) {
       case "new":
         setNewOrders((prev) => [...prev, updatedOrder]);
@@ -154,7 +170,7 @@ const KitchenProvider = ({ children }: { children: ReactNode }) => {
         break;
     }
 
-    if(selectedOrder?.id === orderId) {
+    if(selectedOrder?.id === orderId) { // Si la orden seleccionada es la que se actualizó, actualizar el estado
       setSelectedOrder(updatedOrder);
     }
   };
@@ -166,12 +182,14 @@ const KitchenProvider = ({ children }: { children: ReactNode }) => {
   const value = {
     selectedOrder,
     setSelectedOrder,
+    searchFilter,
+    setSearchFilter,
     orders: {
-      new: newOrders,
-      inProgress: inProgressOrders,
-      completed: completedOrders,
+      new: filterOrdersByTable(newOrders),
+      inProgress: filterOrdersByTable(inProgressOrders),
+      completed: filterOrdersByTable(completedOrders),
     },
-     updateOrderStatus,
+    updateOrderStatus,
     addOrder,
   };
 
