@@ -16,7 +16,7 @@ export interface TableCardProps {
 interface OrderDish {
   name: string;
   ingredients: string[];
-  dishStatus: "stand-by" | "in-progress" | "completed";
+  dishStatus:  "in-progress" | "completed";
   category: "Plato fuerte" | "Postres" | "Bebida" | "Entrada";
 }
 

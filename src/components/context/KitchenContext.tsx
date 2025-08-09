@@ -9,19 +9,19 @@ const mockedOrders = [
       {
         name: "Pizza Margherita",
         ingredients: ["Tomate", "Queso", "Albahaca"],
-        dishStatus: "stand-by" as const,
+        dishStatus: "in-progress" as const,
         category: "Plato fuerte" as const,
       },
       {
         name: "Tiramisu",
         ingredients: ["Café", "Queso mascarpone", "Cacao"],
-        dishStatus: "stand-by" as const,
+        dishStatus: "in-progress" as const,
         category: "Postres" as const,
       },
       {
         name: "Coca-Cola",
         ingredients: ["Refresco"],
-        dishStatus: "stand-by" as const,
+        dishStatus: "in-progress" as const,
         category: "Bebida" as const,
       },
       // ...resto de items
@@ -98,7 +98,7 @@ interface Order {
 interface OrderDish {
   name: string;
   ingredients: string[];
-  dishStatus: "stand-by" | "in-progress" | "completed";
+  dishStatus: "in-progress" | "completed";
   category: "Plato fuerte" | "Postres" | "Bebida" | "Entrada";
 }
 
