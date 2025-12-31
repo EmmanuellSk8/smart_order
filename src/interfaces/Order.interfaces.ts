@@ -6,7 +6,7 @@ export type Order = {
   image: string;
   category: string;
   time: string;
-  status: "listo" | "preparando";
+  status: "ready" | "cooking";
   table: number
 };
 

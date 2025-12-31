@@ -44,7 +44,6 @@ function ViewOrdersHeader({ OnBack, onGoAddDishes, tableNumber }: GeneralProps &
                     className="cursor-pointer hover:scale-105 text-nowrap duration-300 flex rounded-sm bg-red-500 py-2 px-5 items-center gap-2 text-white justify-center"><Trash2 className="size-5" /> Limpiar Mesa</button>
                 <dialog id="modal"
                     ref={modal}
-                    closedby="any"
                     className="overflow-x-hidden px-10 py-20 fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-white p-4 rounded-lg shadow-lg">
                     <p>¿Está seguro que desea limpiar la mesa?</p>
                     <div className="flex w-full gap-4 mt-6">
@@ -68,7 +67,7 @@ function CardOrders({ order, className }: GeneralProps) {
                 <div className="flex justify-between mb-2">
                     <span className="bg-white/90 border-gray-300 border-1 px-3 rounded-xl font-semibold text-sm">{order?.category}</span>
                     <p className="flex items-center gap-1">
-                        {order?.status === "preparando" ? (
+                        {order?.status === "cooking" ? (
                             <span className="text-orange-600 flex items-center gap-2"><Clock size={16} /> Preparando</span>
                         ) : (
                             <span className="text-green-600 flex items-center gap-2"><CheckCircle size={16} /> Listo</span>
@@ -123,8 +122,8 @@ const OrderBoard = ({ tableNumber, OnBack, onGoAddDishes }: ViewOrdersProps) => 
     const { orders } = UseOrders();
 
     const tableOrders = orders.filter((o) => Number(o.table) === Number(tableNumber));
-    const readyOrders = tableOrders.filter(o => o.status === "listo");
-    const cookingOrders = tableOrders.filter(o => o.status === "preparando");
+    const readyOrders = tableOrders.filter(o => o.status === "ready");
+    const cookingOrders = tableOrders.filter(o => o.status === "cooking");
 
     return (
         <>
@@ -151,8 +150,8 @@ const OrderBoard = ({ tableNumber, OnBack, onGoAddDishes }: ViewOrdersProps) => 
             <div className="">
                 <OrdersOverView
                     tableNumber={tableNumber} OnBack={OnBack} onGoAddDishes={onGoAddDishes}
-                    ready={orders.filter(o => o.status === "listo" && o.table === tableNumber).length}
-                    cooking={orders.filter(o => o.status === "preparando" && o.table === tableNumber).length}
+                    ready={orders.filter(o => o.status === "ready" && o.table === tableNumber).length}
+                    cooking={orders.filter(o => o.status === "cooking" && o.table === tableNumber).length}
                 />
             </div>
         </>

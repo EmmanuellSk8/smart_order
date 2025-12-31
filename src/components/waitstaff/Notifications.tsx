@@ -1,45 +1,29 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Bell } from 'lucide-react';
 import type { ToastNotifications, ToastNotificationsProps } from "../../interfaces/Notifications.interface";
+import { io } from "socket.io-client";
 import SoundNotification from "../SoundNotification";
 
-declare global {
-  interface Window {
-    addNotificationChef?: (msg: string) => void;
-    addNotificationTable?: (msg: string) => void;
-  }
-}
-
 function NotificationPanel() {
-  const [chef, setChef] = useState<ToastNotifications[]>([]);
-  const [table, setTable] = useState<ToastNotifications[]>([]);
 
-  const addNotificationChef = (msg: string) => {
-    const id = Date.now();
-    setChef((prev) => [...prev, { id, msg, table: 1 }]);
-    SoundNotification()
-  };
+  const [notification, setNotification] = useState<ToastNotifications[]>([]);
+
+  useEffect(() => {
+    const socket = io("http://localhost:3000")
+
+    socket.on("recieveNotification", (data) => {
+      const id = Date.now();
+      setNotification((prev) => [...prev, { id, ...data }]);
+      console.log("Connected to socket server", data);
+      SoundNotification()
+    });
+  }, []);
   
-  const removeNotificationChef = (id: number) => {
-    setChef((prev) => prev.filter((n) => n.id !== id));
-  };
-  
-  const addNotificationTable = (msg: string) => {
-    const id = Date.now();
-    setTable((prev) => [...prev, { id, msg, table: 1 }]);
-    SoundNotification()
+  const removeNotification = (id: number) => {
+    setNotification((prev) => prev.filter((n) => n.id !== id));
   };
 
-  const removeNotificationTable = (id: number) => {
-    setTable((prev) => prev.filter((n) => n.id !== id));
-  };
-
-  if (typeof window !== "undefined") {
-    window.addNotificationChef = addNotificationChef;
-    window.addNotificationTable = addNotificationTable;
-  }
-
-  const noNotificacions = chef.length === 0 && table.length === 0;
+  const noNotificacions = notification.length === 0;
 
   return (
     <aside className="w-72 min-h-screen border-r-1 border-gray-300 top-0 bg-white">
@@ -53,37 +37,30 @@ function NotificationPanel() {
       {noNotificacions && <ThereArentNotifications />}
 
       <ToastNotifications
-        chef={chef}
-        table={table}
-        removeNotificationChef={removeNotificationChef}
-        removeNotificationTable={removeNotificationTable}
+        notifications={notification}
+        removeNotification={removeNotification}
       />
     </aside>
   );
 }
 
-function ToastNotifications({ chef, table, removeNotificationChef, removeNotificationTable }: ToastNotificationsProps) {
+function ToastNotifications({ notifications, removeNotification }: ToastNotificationsProps) {
   return (
     <div className="px-3 py-4">
-      {chef.map((n) => (
+      {notifications.map((n) => (
         <div
           key={n.id}
-          className="bg-green-200/70 shadow p-2 rounded mb-2 border text-sm flex flex-nowrap items-center font-semibold gap-2 cursor-pointer"
-          onClick={() => removeNotificationChef(n.id)}
+          className={`shadow p-2 rounded mb-2 border text-sm flex flex-nowrap items-center font-semibold gap-2 cursor-pointer ${n.action === "call-waiter" ? "bg-gray-300/70" : n.action === "make-order" ? "bg-blue-200/70" : n.action === "order-ready" ? "bg-green-200/70" : ""}`}
+          onClick={() => removeNotification(n.id)}
         >
-          <p className="gap-4 flex items-center">{n.msg} <span className="bg-green-300/90 py-1 px-2.5 rounded-2xl text-nowrap h-fit">Mesa 1</span></p>
+          {n.action === "call-waiter" ? <p className="flex items-center justify-between w-full">Te solicitan en <span className="bg-white py-1 px-2.5 rounded-2xl text-nowrap h-fit">mesa {n.tableNumber}</span></p>
+            : n.action === "make-order" ? <p className="flex items-center justify-between w-full">Listos para ordenar en <span className="bg-blue-300/90 py-1 px-2.5 rounded-2xl text-nowrap h-fit">mesa {n.tableNumber}</span></p>
+              : n.action === "order-ready" ? <p className="flex items-center justify-between w-full">Pedido listo en <span className="bg-green-300/90 py-1 px-2.5 rounded-2xl text-nowrap h-fit">mesa {n.tableNumber}</span></p>
+                : null}
         </div>
       ))}
 
-      {table.map((n) => (
-        <div
-          key={n.id}
-          className="bg-blue-200/70 shadow p-2 rounded mb-2 border text-sm flex flex-nowrap items-center gap-2 cursor-pointer font-semibold relative"
-          onClick={() => removeNotificationTable(n.id)}
-        >
-          <p className="gap-4 flex items-center">{n.msg} <span className="bg-blue-300/90 py-1 px-2.5 rounded-2xl text-nowrap h-fit">Mesa 1</span></p>
-        </div>
-      ))}
+
     </div>
   );
 }

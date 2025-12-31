@@ -1,5 +1,4 @@
 import Header from "./Header";
-import Activator from "./Activator";
 import { useState } from "react";
 import MaxContainerDishes from "./containers/MaxContainerDishes";
 import MaxContainerTables from "./containers/MaxContainerTables";
@@ -17,7 +16,6 @@ export default function WaitStaffApp() {
       <div className="flex h-screen max-w-[1950px]">
 
         <NotificationPanel />
-        <Activator />
 
         <div className="flex flex-col flex-1">
 

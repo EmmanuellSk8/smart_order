@@ -32,7 +32,7 @@ function TableState({ tableState, className }: GeneralProps) {
 function ButtonTableBusy({ className, order, onGoResumen, onGoAddDishes}: GeneralProps & TableProps) {
   return (
     <>
-      <p className="font-semibold text-lg mt-3 flex w-full justify-between">Pedidos: {order?.status === "listo" ? <span className="flex items-center gap-2 text-[#22C55E] font-semibold text-lg"><CircleCheck className="size-[20px]" /> Pedido listo</span> : <span className="flex items-center gap-2 text-[#F9802C] font-semibold text-[17px]"><ClockFading className="size-[18px] mt-0.5" /> Preparando</span>}</p>
+      <p className="font-semibold text-lg mt-3 flex w-full justify-between">Pedidos: {order?.status === "ready" ? <span className="flex items-center gap-2 text-[#22C55E] font-semibold text-lg"><CircleCheck className="size-[20px]" /> Pedido listo</span> : <span className="flex items-center gap-2 text-[#F9802C] font-semibold text-[17px]"><ClockFading className="size-[18px] mt-0.5" /> Preparando</span>}</p>
 
       <div className="flex flex-col gap-2 mt-3">
 

@@ -11,13 +11,13 @@ export default function Header({ onHeader, onTables, setCurrentView, currentView
 
                         <button
                             onClick={() => { setCurrentView("tables"); onTables(); }}
-                            className={`flex gap-2 py-2.5 px-5 rounded-sm border-1 border-gray-600  ${currentView === "tables"
+                            className={`flex gap-2 py-2.5 px-5 rounded-sm border-1 border-gray-600 cursor-pointer  ${currentView === "tables"
                                 ? "bg-black text-white font-semibold"
                                 : "bg-white text-black"
                                 }`}><UsersRound />Mesas</button>
 
                         <button
-                            className={`flex gap-2 py-2.5 px-5 rounded-sm border-1 border-gray-600 ${currentView === "cocina"
+                            className={`flex gap-2 py-2.5 px-5 rounded-sm border-1 border-gray-600 cursor-pointer ${currentView === "cocina"
                                 ? "bg-black text-white font-semibold"
                                 : "bg-white text-black"
                                 }`}

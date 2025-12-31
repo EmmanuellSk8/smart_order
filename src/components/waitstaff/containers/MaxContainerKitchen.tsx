@@ -32,7 +32,7 @@ function CardOrders({ order, className }: GeneralProps) {
                 <div className="flex justify-between mb-2">
                     <span className="flex items-center gap-1.5 text-lg px-3 rounded-xl font-semibold "><UsersRound size={16} /> Mesa {order?.table}</span>
                     <p className="flex items-center gap-1">
-                        {order?.status === "preparando" ? (
+                        {order?.status === "cooking" ? (
                             <span className="text-orange-600 flex items-center gap-2 text-sm bg-[#FFEDD5] px-3 rounded-2xl">
                                 En Cocina</span>
                         ) : (
@@ -52,7 +52,7 @@ function CardOrders({ order, className }: GeneralProps) {
                                 {order?.note && <span className="text-blue-500 text-xs">Nota: {order?.note}</span>}
                             </div>
                             <p className="flex items-center gap-1 text-sm">
-                                {order?.status === "preparando" ? (
+                                {order?.status === "cooking" ? (
                                     <span className="text-orange-600 flex items-center gap-2"><Clock size={16} /> Preparando</span>
                                 ) : (
                                     <span className="text-green-600 flex items-center gap-2"><CheckCircle size={16} /> Listo</span>
@@ -62,7 +62,7 @@ function CardOrders({ order, className }: GeneralProps) {
                     </div>
                 </div>
 
-                {btnOrder?.status === "listo" && (
+                {btnOrder?.status === "ready" && (
                     <div className="w-full mt-4">
                         <button
                             onClick={() => markAsServed(order?.id)}
@@ -103,8 +103,8 @@ const OrderColumn = ({ title, icon, orders, iconColor, ColorNumberOrders, bgOrde
 const OrderBoard = () => {
 
     const { orders } = UseOrders();
-    const readyOrders = orders.filter(o => o.status === "listo");
-    const cookingOrders = orders.filter(o => o.status === "preparando");
+    const readyOrders = orders.filter(o => o.status === "ready");
+    const cookingOrders = orders.filter(o => o.status === "cooking");
 
     const thereArentDishPreparing = cookingOrders.length == 0
     const thereArentDishReady = readyOrders.length == 0
